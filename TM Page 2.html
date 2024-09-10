@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello, World!</title>
+    <style>
+body {
+  overflow: hidden;
+  user-select: none;
+  margin-top: none;
+  background: #c3cdff;
+  color: #000000;
+}
+
+#mainpg {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  padding: 0px;
+  border-radius: 10px;
+}
+
+#panel {
+  height: 560px;
+  width: 650px;
+  background: #efffd7;
+  border: 6px solid #6a55d1;
+  border-radius: 25px;
+  display: grid;
+  grid-template-columns: 2.7fr 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+}
+
+#timermenu {
+  grid-area: 1 / 2 / 3 / 3;
+  background: #d1f59e;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  display: grid;
+  grid-template-columns: 1.2fr;
+  grid-template-rows: 1fr 0.5fr 2fr 5fr 1.2fr 0.8fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 2px;
+}
+
+.spc {
+  grid-area: 4 / 1 / 5 / 2;
+  background: transparent;
+}
+
+#nxt {
+  grid-area: 5 / 1 / 6 / 2;
+  background: transparent;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+#nxtbtn {
+  font-size: 14px;
+  height: 58%;
+  width: 86%;
+  background: linear-gradient(0deg, rgba(212, 215, 245, 1) 0%, rgba(255, 255, 255, 1) 100%);
+  border-radius: 6px;
+  box-shadow: none;
+  outline: none;
+  color: #000683;
+  border: 1px solid #8f95bf;
+}
+
+#cls {
+  grid-area: 6 / 1 / 7 / 2;
+  background: transparent;
+  border-bottom-right-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#clsbtn {
+  height: 60%;
+  width: 86%;
+  font-size: 14px;
+  background: #efffd7;
+  border-radius: 6px;
+  box-shadow: none;
+  outline: none;
+  color: #000683;
+  border: 1px solid #8f95bf;
+}
+    
+*::selection {
+  background: transparent;
+}
+        
+#result_pnl {
+            text-align: left;
+            
+            font-family: Calibri;
+            background: linear-gradient(180deg, #def8b6, #f0ffd8, #f0fdde, #f0fdde, #f0fdde, #f0fdde, #f0fdde, #f0fdde, #f0fdde);
+            border-top-left-radius: 25px;
+            border-bottom-left-radius: 25px;
+        }
+        #result_pnl h1:first-of-type {
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #60763f;
+            margin-top: 6px;
+            padding-left: 16px;
+        }
+        #result_pnl #result {
+            width: 80%;
+            margin: 0 auto;
+        }
+        #result_pnl p:first-of-type span {
+            font-size: 18px;
+        }
+        #result_pnl p:first-of-type {
+            margin-bottom: 30px;
+        }
+        #result_pnl #table {
+            width: 100%;
+            border-top: 1px solid #c9e2a6;
+            border-bottom: 1px solid #c9e2a6;
+        }
+        #table {
+            padding: 16px 0 16px 0;
+        }
+        #table td {
+            width: 136px;
+        }
+        #table + h3 {
+            font-size: 18px;
+        }
+        #diff-keys {
+            height: 110px;
+            width: 90%;
+            background: #e6fdc5;
+            border: 1px solid #60763f;
+            border-radius: 1px;
+        }
+        #diff-keys div {
+            text-align: right;
+            height: calc(100% / 3);
+            width: 100%;
+            background: transparent;
+        }
+        #diff-keys p {
+            margin: 0 5px 0 0; 
+            color: #60763f;
+            line-height: 2;
+        }
+        #result-btn {
+            height: 70px;
+            width: 100%;
+            background: transparent;
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: column;
+            border-top: 1px solid #c9e2a6;
+            padding-top: 6px;
+        }
+        #result-btn button {
+            padding: 5px;
+            width: 56%;
+            border-radius: 5px;
+            border: 1px solid #60763f;
+            text-align: left;
+            margin-top: 6px;
+            margin-bottom: 2px;
+            background: linear-gradient(0deg, #e9fdc8, #f2fee1, #f2fee1);
+            color: #28301f;
+        }
+        #keys {
+            height: 12px;
+            width: 90%;
+            background: transparent;
+            margin-top: -2px;
+            padding: 0 0 0 15px;
+        }
+        #keys td {
+            border-left: 1px solid #60763f;
+            width: 26px;
+            height: 2px;
+            background: transparent;
+        }
+        #keys td:last-of-type {
+            border-right: 1px solid #60763f;
+        }
+        #letter {
+            height: auto;
+            width: 90%;
+            background: transparent;
+            margin-top: 2px;
+            margin-bottom: 20px;
+            padding: 0 0 0 11px;
+        }
+        #letter td {
+            width: 26px;
+            height: auto;
+            background: transparent;
+            padding: none;
+            border-left: 1px solid transparent;
+            font-size: 12px;
+            line-height: .1;
+            text-align: left;
+            color: #28301f;
+        }
+        
+    </style>
+  </head>
+  <body>
+      
+ <div id="mainpg">
+  <center>
+    <div id="panel">
+        <div id="result_pnl">
+    <h1 id="page_title">Typing Test Results</h1>
+        <div id="result">
+        <p><span><b>Test Interrupted</b></span>
+        <br>
+        <!--Test Passed-->
+        The test was interrupted before the time was up.
+        </p>
+        <!--You completed this typing test.-->
+        <div id="table">
+        <table>
+            <tr>
+                <td><b>Time Used</b></td>
+                <td>2:00min</td>
+            </tr>
+            <tr>
+                <td><b>Groos Speed</b></td>
+                <td>0 wpm</td>
+            </tr>
+            <tr>
+                <td><b>Accuracy</b></td>
+                <td>0%</td>
+            </tr>
+            <tr>
+                <td><b>Net Speed</b></td>
+                <td>0 wpm</td>
+            </tr>
+        </table>
+            </div>
+            <h3>Your Difficult Keys</h3>
+            <div id="diff-keys">
+            <div style="border-bottom:1px solid #a2bb7c"><p>Problematic</p></div>
+            <div style="border-bottom:1px solid #a2bb7c"><p>Difficult</p></div>
+            <div><p>OK</p></div>
+            </div>
+            <div id="keys">
+            <table>
+                <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                </table>
+            </div>
+            <div id="letter">
+            <table>
+                <tr>
+                <td class="key 1">f</td>
+                <td class="key 2">,</td>
+                <td class="key 3">h</td>
+                <td class="key 4">e</td>
+                <td class="key 5">b</td>
+                <td class="key 6">I</td>
+                <td class="key 7"></td>
+                <td class="key 8"></td>
+                <td class="key 9"></td>
+                <td class="key 10"></td>
+                </tr>
+                </table>
+            </div>
+            <div id="result-btn">
+            <button type="button">► View and Print Result</button>
+            <button type="button">► View and Print Certificate</button>
+            </div>
+        </div>
+            </div>
+      <div id="timermenu">
+        
+        <div class="spc"> </div>
+        <div id="nxt"><button type="button" id="nxtbtn" class="nxtbtn_" onclick="gameOver()"><span style="text-decoration:underline">N</span>ext</button></div>
+        <div id="cls"><button type="button" id="clsbtn" class="clsbtn_" onclick=""><span style="text-decoration:underline">C</span>ancel</button> </div>
+      </div>
+    </div>
+  </center>
+</div>     
+
+      <script>
+
+
+          
+      
+      </script>
+  </body>
+</html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello, World!</title>
+    <style>
+body {
+  overflow: hidden;
+  user-select: none;
+  margin-top: none;
+  background: #c3cdff;
+  color: #000000;
+}
+
+#mainpg {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  padding: 0px;
+  border-radius: 10px;
+}
+
+#panel {
+  height: 560px;
+  width: 650px;
+  background: #efffd7;
+  border: 6px solid #6a55d1;
+  border-radius: 25px;
+  display: grid;
+  grid-template-columns: 2.7fr 1fr;
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 5px;
+}
+
+#contentbox {
+  height: 250px;
+  grid-area: 1 / 1 / 2 / 2;
+  background: #efffd7;
+  border: 1px solid transparent;
+  border-top-left-radius: 20px;
+  padding: 22px 22px 3px 22px;
+  font-size: 20px;
+  color: #000;
+  text-align: left;
+  overflow-y: scroll;
+}
+    
+#contentbox::-webkit-scrollbar {
+    width: 0px;
+}
+
+#typingbox {
+  height: 250px;
+  grid-area: 2 / 1 / 3 / 2;
+  background: #efffd7;
+  border: 1px solid #c9e99b;
+  border-bottom-left-radius: 20px;
+  border-width: 1px 0px 0px 0px;
+  padding: 10px 22px 15px 22px;
+  user-select: none;
+}
+
+#timermenu {
+  grid-area: 1 / 2 / 3 / 3;
+  background: #d1f59e;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  display: grid;
+  grid-template-columns: 1.2fr;
+  grid-template-rows: 1fr 0.5fr 2fr 5fr 1.2fr 0.8fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 2px;
+}
+
+.tmtitle {
+  grid-area: 1 / 1 / 2 / 2;
+  background: transparent;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 5px;
+  font-size: 17px;
+  font-weight: bold;
+  border-top-right-radius: 20px;
+}
+        
+.tmtitle button {
+  height: 20px;
+  width: 20px;
+  background: #a9de62;
+  border: 1px solid #878993;
+  border-radius: 2px;
+  box-shadow: 0px 2px #c7e47f inset;
+  padding: 0 0 0 0;
+  margin-left: 140px;
+  margin-top: 3px;
+  margin-bottom: 20px;
+    color: #fff;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+        }
+.tmtitle span {
+    font-family: Arial;
+    padding-left: 6px;
+        }
+.tmtitle line {
+  height: auto;
+  width: 90%;
+  border-top: 1px solid #fff;
+  margin-top: 2px;
+        }
+
+.timebox {
+  grid-area: 2 / 1 / 3 / 2;
+  background: transparent;
+}
+#timeClock p {
+    font-weight: bolder;
+    font-family: Arial;
+    font-size: 26px;
+    line-height: 1;
+    background: transparent;
+    margin-top: -2px;
+    text-align: left;
+    padding-left: 12px;
+        }
+#timer {
+    margin-top: -26px;
+        }
+.tmgif {
+  grid-area: 3 / 1 / 4 / 2;
+  background: transparent;
+}
+
+.spc {
+  grid-area: 4 / 1 / 5 / 2;
+  background: transparent;
+}
+
+#nxt {
+  grid-area: 5 / 1 / 6 / 2;
+  background: transparent;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+#nxtbtn {
+  font-size: 14px;
+  height: 58%;
+  width: 86%;
+  background: linear-gradient(0deg, rgba(212, 215, 245, 1) 0%, rgba(255, 255, 255, 1) 100%);
+  border-radius: 6px;
+  box-shadow: none;
+  outline: none;
+  color: #000683;
+  border: 1px solid #8f95bf;
+}
+
+#cls {
+  grid-area: 6 / 1 / 7 / 2;
+  background: transparent;
+  border-bottom-right-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#clsbtn {
+  height: 60%;
+  width: 86%;
+  font-size: 14px;
+  background: #efffd7;
+  border-radius: 6px;
+  box-shadow: none;
+  outline: none;
+  color: #000683;
+  border: 1px solid #8f95bf;
+}
+
+#txtera {
+  height: 100%;
+  width: 100%;
+  color: #546e30;
+  background: transparent;
+  font-size: 20px;
+  font-family: initial;
+  border-bottom-left-radius: 10px;
+  padding: 2px;
+  border: none;
+  outline: none;
+  caret-color: #000;
+  user-select: none;
+  overflow-y: scroll;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
+#txtera::-webkit-scrollbar {
+    width: 0px;
+}
+    
+*::selection {
+  background: transparent;
+}
+
+#txtera:active {
+  outline: none;
+  border: none;
+}
+
+#contentbox span {
+        background: transparent;
+    }
+    </style>
+  </head>
+  <body>
+      
+ <div id="mainpg">
+  <center>
+    <div id="panel">
+      <div id="contentbox" ><!--onscroll="this.style.overflow='hidden'"-->
+      </div>
+      <div id="typingbox">
+        <div id="txtera"></div>
+      </div>
+      <div id="timermenu">
+          
+        <div class="tmtitle"><button type="button">&times;</button><span>Time</span><line></line> </div>
+        <div class="timebox">
+            <div id="timeClock"><p>00:00</p></div>
+            <img id="timer"  src="timer.png" alt="Timer <" height="90" width="176"/></div>
+        <div class="tmgif"> </div>
+        <div class="spc"> </div>
+        <div id="nxt"><button type="button" id="nxtbtn" class="nxtbtn_" onclick="gameOver()"><span style="text-decoration:underline">N</span>ext</button></div>
+        <div id="cls"><button type="button" id="clsbtn" class="clsbtn_" onclick=""><span style="text-decoration:underline">C</span>ancel</button> </div>
+      </div>
+    </div>
+  </center>
+</div>     
+
+      <script>
+
+var started = false;
+var timeLeft = 120;
+var timeElapsed = 0;
+var errors = 0;
+var lastword = "";
+var backspaces = 0;
+var spaces = 0;
+var contcrrwno = 0;
+var contcrrchno = 0;
+var allinptxtlen = 0;
+var allinptxt = "";
+var inpwarr = [];
+var content_array = [];
+var inpcharr = allinptxt.split("");
+var correctWords = 0;
+var wrongWords = 0;
+var totalWordsTyped = 0;
+var totalStrokes = 0;
+var currentWord = contcrrwno + 1;
+var timer = null;
+var result = null;
+          
+//var timetxt = document.querySelector(".timebox");
+var inptxtpnl = document.getElementById("txtera");
+var contpnl = document.querySelector("#contentbox");
+var contspan = document.querySelector('#contspn');
+
+document.addEventListener("contextmenu", (event) => event.preventDefault());
+document.addEventListener("copy", (event) => event.preventDefault());
+document.addEventListener("paste", (event) => event.preventDefault());
+inptxtpnl.addEventListener("dragstart", (event) => event.preventDefault());
+inptxtpnl.addEventListener("select", (event) => event.preventDefault());
+          
+var alphabets = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+-=/.,|\{[]}'"`;
+var cont = [];
+var contwarr;
+var totalWordsInContent;
+url = "content.json";
+
+	let globalData = fetch(url)
+    .then((response) => response.json())
+    .catch(error => console.error)
+    
+    globalData.then(result => cont.push(result.name));
+setTimeout(function(){ const warr = cont[0].split(" "); contwarr = warr; updateContent();}, 200);
+          
+//--------------------------- Start Typing --------------------
+var wrd = 0;
+var pgEnd;
+function updateContent() {
+    for (let i=wrd;i<contwarr.length;i++) {
+        if(contpnl.scrollHeight > 278){
+            pgEnd = wrd - 2;
+            wrd -= 1;
+            break;
+        }
+  contpnl.innerHTML += `<span id="c${i}">${contwarr[i]}</span>` + " "; 
+        wrd++;
+} 
+    init();
+}
+          
+function init(){
+  totalWordsInContent = contwarr.length;
+  document.getElementById(`c${contcrrwno}`).style.color = "#3f10cb";
+
+  document.getElementById(`c${contcrrwno}`).style.textDecoration = "underline";
+          
+inptxtpnl.innerHTML += `<span id="inpw${0}" >${lastword}</span>`;
+}
+
+          
+//-------------------------------------------------------------------------          
+//---------------------- HANDLE KEY PRESS EVENT ---------------------------
+//-------------------------------------------------------------------------
+
+document.addEventListener("keydown", function (e) {
+    
+  allinptxt = inptxtpnl.innerText;
+  allinptxtlen = allinptxt.length;
+
+//--------------handle ALPHANUMERIC keys events---------------
+    
+  if (alphabets.includes(e.key) && contcrrwno < contwarr.length) {
+      
+      if(totalWordsTyped === contwarr.length) {
+      inptxtpnl.addEventListener("keydown", (event) => event.preventDefault());
+      gameOver();
+  }
+      
+      if(contcrrchno == 0){timer = setInterval(updateTimer, 1000);}
+    contcrrchno++;
+    lastword += e.key;
+    totalStrokes++;
+
+    document.querySelector(`#inpw${contcrrwno}`).innerHTML = lastword;
+
+    backspaces++;
+      
+    if(totalStrokes == 1) {  document.querySelector('#timer').attributes[1].value = "timergif.gif";
+    }
+  } else if(alphabets.includes(e.key) && contcrrwno === contwarr.length) {
+      inptxtpnl.addEventListener("keydown", (event) => event.preventDefault());
+      gameOver();
+  }
+    
+//--------------handle BACKSPACE events-----------------
+    
+//if user has not typed even a single character of new word and is hitting backspace
+  if (e.which == 8 && backspaces == 0) {
+    e.preventDefault();
+  } 
+    
+//if user try to delete word before going to next one
+    else if (e.which == 8 && backspaces > 0) {
+    let delarr = lastword.split("");
+    delarr.pop();
+    lastword = delarr.join("");
+    document.querySelector(`#inpw${contcrrwno}`).innerHTML = lastword;
+    backspaces--;
+    contcrrchno--;
+  }
+    
+//--------------handle SPACEBAR events-------------------
+    
+//if user has typed all of the content, end the typing test 
+  /*if (
+    e.keyCode === 32 &&
+    lastword !== "" &&
+    contcrrwno == contwarr.length - 1
+  ) {
+    inptxtpnl.addEventListener("keydown", (event) => event.preventDefault());
+    gameOver();
+  } */
+
+    
+//if user hit spacebar, move to the next word //if the word is not the last one
+  if (e.keyCode === 32 && lastword !== "" && contcrrwno < contwarr.length) {
+    totalWordsTyped++;
+      if(totalWordsTyped === contwarr.length) {
+      inptxtpnl.addEventListener("keydown", (event) => event.preventDefault());
+      gameOver();
+  }
+    inpwarr.push(lastword);
+    if (lastword !== "") {
+      spaces++;
+
+//check if user has entered a correct word
+      if (inpwarr[contcrrwno] === contwarr[contcrrwno]) {
+        correctWords++;
+      } else {
+        wrongWords++;
+
+        document.querySelector(`#inpw${contcrrwno}`).style.textDecoration = "underline";
+        document.querySelector(`#inpw${contcrrwno}`).style.textDecorationColor = "#e94f69";
+      }
+      contcrrwno++;
+    }
+
+//change decoration of both previous and next word
+    if (backspaces > 0) {
+      inptxtpnl.innerHTML += `&nbsp<span id="inpw${contcrrwno}"></span>`;
+      if (contcrrwno <= contwarr.length - 1) {
+        document.getElementById(`c${contcrrwno}`).style.color = "#3f10cb";
+
+        document.getElementById(`c${contcrrwno}`).style.textDecoration = "underline";
+
+        document.getElementById(`c${contcrrwno - 1}`).style.color = "#546e30";
+
+        document.getElementById(`c${contcrrwno - 1}`).style.textDecoration = "none";
+      }
+    }
+    lastword = "";
+    backspaces = 0;
+      
+    if(contcrrwno-1 === pgEnd) {
+          contpnl.innerHTML = " ";
+          updateContent();
+      }
+  }
+
+//if input panel if full, move to the empty one
+//  if (allinptxtlen > 459) {
+//    inptxtpnl.innerHTML = "";
+//    inptxtpnl.innerHTML += `<span id="inpw${contcrrwno}" >${lastword}</span>`;
+//  }
+
+inptxtpnl.scrollTop = inptxtpnl.scrollHeight;
+});
+//----------------------------------------------------------------------------
+    
+//------------------handle time events-------------------
+          
+function updateTimer() { 
+if (timeLeft > 0) { 
+	// decrease the current time left 
+	timeLeft--; 
+
+	// increase the time elapsed 
+	timeElapsed++; 
+
+	// update the timer text 
+	//timetxt.textContent = timeLeft + "s"; 
+} 
+else { 
+    inptxtpnl.addEventListener("keydown", (event) => event.preventDefault());
+	// finish the game 
+	gameOver(); 
+} } 
+          
+//------------------- handle events after typing ends -------------------------
+
+var gmOver = false;
+function gameOver() {
+    
+  // stop the timer 
+  clearInterval(timer);
+  timer = null;
+  document.querySelector('#timer').attributes[1].value = "timeEnd.png";
+  inptxtpnl.addEventListener("keydown", (event) => event.preventDefault());
+  //calculate results
+  var error_hits = wrongWords * 5;
+  var gross_strocks = inptxtpnl.innerText.length;
+  var net_strocks = gross_strocks - error_hits;
+  if(net_strocks < 0){net_strocks = 0}
+  var accuracy = Math.round((net_strocks / gross_strocks) * 100);
+  var gross_speed = Math.round(((gross_strocks / 5) / timeElapsed) * 60);  
+  var net_speed = Math.round(((net_strocks / 5) / timeElapsed) * 60);
+
+  //display results
+  if (totalWordsTyped < 5 || timeElapsed < 10) {
+    setTimeout(function () {
+      window.alert(
+        "You have typed for very short time - your performance scores cannot be calculated."
+      );
+    }, 10);
+  } else if(timeElapsed > 10 && totalWordsTyped > 4){
+      result = `Time Used       ` + timeElapsed + `sec` + 
+             `\nGross Speed    ` + gross_speed + 
+             `\nAccuracy         ` + accuracy    + `%` + 
+             `\nNet Speed       ` + net_speed;
+    setTimeout(function () {
+    console.log(result);
+    console.log('\nError Hits: '+error_hits,'\nGross Strocks: '+gross_strocks,'\nNet Strocks: '+net_strocks);
+     // window.alert(result);
+        
+    }, 10);
+  } else {window.alert('Text Not Entered!');}
+    
+  //Store results into session storage
+  sessionStorage.setItem('"tU"', timeElapsed + "sec");
+  gmOver = true;
+}
+
+if(gmOver = true) {
+    
+}
+          
+function show_result() {
+    
+}
+          
+      
+      </script>
+  </body>
+</html>
