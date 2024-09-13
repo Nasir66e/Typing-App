@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello, World!</title>
+    <style>
+body {
+  overflow: hidden;
+  user-select: none;
+  margin-top: none;
+  background: #c3cdff;
+  color: #000000;
+  font-family: Arial;
+}
+
+#mainpg {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#panel {
+  height: 560px;
+  width: 650px;
+  min-width: 650px;
+  min-height: 560px;
+  background: #efffd7;
+  border: 6px solid #6a55d1;
+  border-radius: 25px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+}
+    
+*::selection {
+  background: transparent;
+}
+        
+#result_pnl {
+            text-align: left;
+            
+            font-family: Calibri;
+            background: linear-gradient(180deg, #def8b6, #efffd7, #efffd7, #efffd7, #efffd7, #efffd7, #efffd7, #efffd7, #f0fdde);
+            border-radius: 25px;
+        }
+        #result_pnl h1:first-of-type {
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #60763f;
+            margin-top: 6px;
+            padding-left: 16px;
+        }
+        #result {
+            height: 88%;
+            width: 100%;
+            background: transparent;
+            border-bottom-left-radius: 25px;
+        }
+        #light-pnl {
+            height: 326px;
+            width: 100%;
+            background: transparent;
+        }
+        #above {
+            height: 70%;
+            width: 100%;
+            background: transparent;
+            display: flex;
+            justify-content: flex-start;
+            margin-left: -14px;
+        }
+        .num {
+            font-size: 76px;
+            font-weight: 900;
+            color: #bae080;
+            margin: 0 0 0 0;
+            text-align: right;
+            background: transparent;
+        }
+        #num1 {
+            height: 90%;
+            width: 10%;
+            margin-top: -20px;
+        }
+        #txt-pnl {
+            border-left: 1px solid #bae080;
+            padding-left: 12px;
+            height: 83%;
+            margin-top: 3px;
+        }
+        #head-txt {
+            letter-spacing: 1px;
+            font-size: 18px;
+            line-height: .6;
+            margin-top: 1px;
+        }
+        #head-txt span {
+            text-decoration: underline;
+        }
+        #selection {
+            height: 163px;
+            width: 476px;
+            background: pink;
+            box-shadow: 2px 2px grey inset;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            margin-top: -12px;
+        }
+        #txt-box {
+            height: 160px;
+            width: 467px;
+            background: #fff;
+            overflow-y: scroll;
+            padding: 0 3px 0 3px;
+            border: 1px solid grey;
+        }
+        .txt {
+            font-family: sans-serif;
+            font-size: 14px;
+            line-height: 1;
+            width: 100%;
+            margin: none;
+            margin-bottom: 1px;
+            margin-top: 1px;
+            border: 1px dotted transparent;
+        }
+
+        .txt-active {
+        	background: #000084;
+        	color: #ffffff;
+        	border: 1px dotted #ccc;
+        }
+        
+        #discription {
+            color: #698045;
+            line-height: .1;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        #below {
+            display: flex;
+            justify-content: flex-start;
+            text-align: center;
+            flex-direction: row;
+            margin-left: 12px;
+            margin-top: 20px;
+        }
+        #num2 {
+            margin-top: -20px;
+            border-right: 1px solid #bae080;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding-bottom: 8px;
+        }
+        #time-opt {
+            margin-top: -20px;
+            padding-left: 12px;
+        }
+        #time-opt p {
+            font-weight: bold;
+            font-size: 17px;
+            text-align: left;
+            margin-bottom: 0;
+            
+        }
+        #time-opt span {
+            text-decoration: underline;
+        }
+        #tm {
+            box-shadow: 2px 2px grey inset;
+            height: 
+        }
+        #time-opt select {
+            width: 120px;
+            outline: none;
+        }
+        #start-btn {
+            height: 40px;
+            width: 150px;
+            background: transparent;
+            
+        }
+        #num3 {
+            margin-top: -20px;
+            margin-left: 80px;
+            margin-right: 12px;
+            border-right: 1px solid #bae080;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding-bottom: 8px;
+        }
+        #start-btn {
+            border-radius: 8px;
+            width: 178px;
+            height: 34px;
+            border: 1px solid #888eba;
+            color: #4025a1;
+            background: linear-gradient(0deg, #cfd2f1, #fdfdfe);
+        }
+        #dark-pnl {
+            background: #d2f59f;
+            border-top: 1px solid #c5e597;
+            height: 166px;
+            width: 100%;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-direction: row;
+        }
+        #dark-pnl p {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #history {
+            height: 100px;
+            width: 264px;
+            background: #fff;
+            box-shadow: 2px 2px grey inset;
+            border: 1px solid lightgrey;
+        }
+        #print-btn button {
+            height: 24px;
+            width: 240px;
+            background: linear-gradient(0deg, #e6fbc6, #e6fbc6, #f7ffe9,#f7ffe9);
+            color: #c0bfc2;
+            margin: 5px 0 5px 0;
+            border-radius: 4px;
+            border: 1px solid #bdd994;
+        }
+        
+        #print-btn {
+            height: auto;
+            width: 246px;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 60px;
+        }
+     
+    </style>
+  </head>
+  <body>
+      
+ <div id="mainpg">
+  <center>
+    <div id="panel">
+        <div id="result_pnl">
+    <h1 id="page_title">Typing Test</h1>
+        <div id="result">
+        <div id="light-pnl">
+            <div id="above">
+            <div id="num1" class="num">1</div>
+            <div id="txt-pnl">
+                <p id="head-txt"><b>Test Te<span>x</span>t</b></p>
+                <section id="selection">
+                <div id="txt-box">
+                <p class="txt" onclick="_bg(this)" data-discription="Text Content1 (Local)" data-text="text_content1_(local)">Aesop's fables</p>
+                <p class="txt" onclick="_bg(this)" data-discription="Typing Skills" data-text="typnig_skills">Are Your Typing Skills Hurting Your Job Opportunities?</p>
+                <p class="txt" onclick="_bg(this)" data-discription="NASA" data-text="nasa">Astronauts</p>
+                <p class="txt" onclick="_bg(this)" data-discription="MOVIES">Behind the scene: Movie credits</p>
+                <p class="txt" onclick="_bg(this)" data-discription="RESEARCH">DNA research -- the Human Genome Project</p>
+                <p class="txt" onclick="_bg(this)" data-discription="Typing Speed">Does WPM Really Matter in the Corporate World?</p>
+                <p class="txt" onclick="_bg(this)" data-discription="CAMERA">History of Photography</p>
+                <p class="txt" onclick="_bg(this)" data-discription="TELESCOPE">Hubble Space Telescope</p>
+                <p class="txt" onclick="_bg(this)" data-discription="PRESIDENT">Legends of Abraham Lincoln</p>
+                <p class="txt" onclick="_bg(this)" data-discription="INTELLIGENCE">Emotional Intelligence</p>
+                <p class="txt" onclick="_bg(this)" data-discription="STRATEGY">Speeding up the strategy process</p>
+                <p class="txt" onclick="_bg(this)" data-discription="Touch Typing">The 5 Benefits of Touch Typing</p>
+                <p class="txt" onclick="_bg(this)" data-discription="Sting">Stinging Insects</p>
+                <p class="txt" onclick="_bg(this)" data-discription="Broken Bones">What is a cast?</p>
+                </div>
+                </section>
+                <p id="discription"></p>
+                </div>
+            </div>
+            <div id="below">
+            <div id="num2" class="num">2</div>
+            <div id="time-opt">
+                <p><span>D</span>uration</p>
+                <div id="tm">
+                <select>
+                <option>2 min.</option>
+                <option>5 min.</option>
+                <option>10 min.</option>
+                <option>15 min.</option>
+                <option>Free</option>
+                </select>
+                </div>
+                </div>
+            <div id="num3" class="num">3</div>
+            <button type="button" id="start-btn">
+                Start test
+                </button>
+            </div>
+            </div>
+        <div id="dark-pnl">
+            <div id="history-pnl">
+            <p>C<span>o</span>mpleted Tests</p>
+            <div id="history"></div>
+            </div>
+            <div id="print-btn">
+            <button id="result-btn">View &amp; Print Result</button>
+            <button id="certificate-btn">View &amp; Print Certificate</button>
+            </div>
+            </div>
+        </div>
+            </div>
+    </div>
+  </center>
+</div>     
+
+      <script>
+
+let data_text;
+
+function _bg(elem) {
+
+const txt = document.querySelectorAll('.txt');
+
+for (let i=0; i<txt.length; i++) {
+	if (txt[i].classList.contains('txt-active')) {
+  		txt[i].classList.remove('txt-active');
+	}
+}
+    elem.classList.add('txt-active');
+    
+    document.getElementById("discription").innerHTML = elem.attributes[2].value;
+
+    data_text = elem.attributes[3].value;
+
+    store_data();
+}
+
+function store_data() {
+
+	if (localStorage.getItem('data_text')) {
+    	localStorage.removeItem('data_text');
+	}
+
+	localStorage.setItem('data_text', data_text);
+}
+          
+      
+      </script>
+  </body>
+</html>
