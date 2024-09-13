@@ -295,7 +295,18 @@ url = "content.json";
     .catch(error => console.error)
     
     globalData.then(result => cont.push(result[text_data]));
-setTimeout(function(){ const warr = cont[0].split(" "); contwarr = warr; updateContent();}, 200);
+	      
+window.onload = function() {
+    if (cont.length > 0) {
+	    const warr = cont[0].split(" ");
+    contwarr = warr;
+    updateContent();
+    } else {
+	    console.log(cont.length);
+	    console.log(cont);
+	    console.log(result[text_data]);
+	    console.log(result[0]);
+};
           
 //--------------------------- Start Typing --------------------
 var wrd = 0;
