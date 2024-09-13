@@ -290,24 +290,15 @@ let text_data = localStorage.getItem('text_data');
 //--------------------------- Load Text --------------------
 url = "content.json";
 
-	let globalData = fetch(url)
-    .then((response) => response.json())
-    .then(result => {
-        cont.push(result[text_data]);
-    })
-    .catch(error => console.error('Error:', error));
+let globalData;
 	      
 window.onload = function() {
-    if (cont.length > 0) {
+
+	globalData = fetch(url).then((response) => response.json()).then(result => {cont.push(result[text_data]);}).catch(error => console.error('Error:', error));
+	
         const warr = cont[0].split(" ");
         contwarr = warr;
-        updateContent();
-    } else {
-        console.log(cont.length);
-        console.log(cont);
-        console.log(result[text_data]); // Make sure result is populated here
-        console.log(result[0]);
-    }
+        updateContent(); 
 };
           
 //--------------------------- Start Typing --------------------
