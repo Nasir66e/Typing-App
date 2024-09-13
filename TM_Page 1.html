@@ -278,17 +278,23 @@ document.addEventListener("paste", (event) => event.preventDefault());
 inptxtpnl.addEventListener("dragstart", (event) => event.preventDefault());
 inptxtpnl.addEventListener("select", (event) => event.preventDefault());
           
-var alphabets = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+-=/.,|\{[]}'"`;
+var alphabets = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+-=/.,|[]}'"`; // \{
 var cont = [];
 var contwarr;
 var totalWordsInContent;
-url = "content.json";
+
+//--------------------------- Listen Request ---------------------------
+
+let text_data = localStorage.getItem('text_data');
+
+//--------------------------- Load Text --------------------
+url = "data.json";
 
 	let globalData = fetch(url)
     .then((response) => response.json())
     .catch(error => console.error)
     
-    globalData.then(result => cont.push(result.name));
+    globalData.then(result => cont.push(result[text_data]));
 setTimeout(function(){ const warr = cont[0].split(" "); contwarr = warr; updateContent();}, 200);
           
 //--------------------------- Start Typing --------------------
