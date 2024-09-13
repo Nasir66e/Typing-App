@@ -291,14 +291,30 @@ let text_data = localStorage.getItem('text_data');
 url = "content.json";
 
 let globalData;
+
+async function fetchData() {
+    try {
+        // Fetch data from the URL
+        const response = await fetch(url);
+        
+        const result = await response.json();
+        
+        cont.push(result[text_data]);
+        
+        const warr = cont[0].split(" ");
+    
+	contwarr = warr;
+    
+	updateContent();
+	    
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 	      
 window.onload = function() {
 
-	globalData = fetch(url).then((response) => response.json()).then(result => {cont.push(result[text_data]);}).catch(error => console.error('Error:', error));
-	
-        const warr = cont[0].split(" ");
-        contwarr = warr;
-        updateContent(); 
+	fetchData();
 };
           
 //--------------------------- Start Typing --------------------
