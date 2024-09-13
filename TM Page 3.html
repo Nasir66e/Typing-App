@@ -267,17 +267,17 @@ body {
                 <p class="txt" onclick="_bg(this)" data-discription="Text Content1 (Local)" data-text="text_content1_(local)">Aesop's fables</p>
                 <p class="txt" onclick="_bg(this)" data-discription="Typing Skills" data-text="typnig_skills">Are Your Typing Skills Hurting Your Job Opportunities?</p>
                 <p class="txt" onclick="_bg(this)" data-discription="NASA" data-text="nasa">Astronauts</p>
-                <p class="txt" onclick="_bg(this)" data-discription="MOVIES" data-text="">Behind the scene: Movie credits</p>
-                <p class="txt" onclick="_bg(this)" data-discription="RESEARCH" data-text="">DNA research -- the Human Genome Project</p>
-                <p class="txt" onclick="_bg(this)" data-discription="Typing Speed" data-text="">Does WPM Really Matter in the Corporate World?</p>
-                <p class="txt" onclick="_bg(this)" data-discription="CAMERA" data-text="">History of Photography</p>
-                <p class="txt" onclick="_bg(this)" data-discription="TELESCOPE" data-text="">Hubble Space Telescope</p>
-                <p class="txt" onclick="_bg(this)" data-discription="PRESIDENT" data-text="">Legends of Abraham Lincoln</p>
-                <p class="txt" onclick="_bg(this)" data-discription="INTELLIGENCE" data-text="">Emotional Intelligence</p>
-                <p class="txt" onclick="_bg(this)" data-discription="STRATEGY" data-text="">Speeding up the strategy process</p>
-                <p class="txt" onclick="_bg(this)" data-discription="Touch Typing" data-text="">The 5 Benefits of Touch Typing</p>
-                <p class="txt" onclick="_bg(this)" data-discription="Sting" data-text="">Stinging Insects</p>
-                <p class="txt" onclick="_bg(this)" data-discription="Broken Bones" data-text="">What is a cast?</p>
+                <p class="txt" onclick="_bg(this)" data-discription="MOVIES" data-text="movies">Behind the scene: Movie credits</p>
+                <p class="txt" onclick="_bg(this)" data-discription="RESEARCH" data-text="research">DNA research -- the Human Genome Project</p>
+                <p class="txt" onclick="_bg(this)" data-discription="Typing Speed" data-text="typing_speed">Does WPM Really Matter in the Corporate World?</p>
+                <p class="txt" onclick="_bg(this)" data-discription="CAMERA" data-text="camera">History of Photography</p>
+                <p class="txt" onclick="_bg(this)" data-discription="TELESCOPE" data-text="telescope">Hubble Space Telescope</p>
+                <p class="txt" onclick="_bg(this)" data-discription="PRESIDENT" data-text="president">Legends of Abraham Lincoln</p>
+                <p class="txt" onclick="_bg(this)" data-discription="INTELLIGENCE" data-text="intelligence">Emotional Intelligence</p>
+                <p class="txt" onclick="_bg(this)" data-discription="STRATEGY" data-text="strategy">Speeding up the strategy process</p>
+                <p class="txt" onclick="_bg(this)" data-discription="Touch Typing" data-text="touch_typing">The 5 Benefits of Touch Typing</p>
+                <p class="txt" onclick="_bg(this)" data-discription="Sting" data-text="sting">Stinging Insects</p>
+                <p class="txt" onclick="_bg(this)" data-discription="Broken Bones" data-text="broken_bones">What is a cast?</p>
                 </div>
                 </section>
                 <p id="discription"></p>
@@ -298,9 +298,11 @@ body {
                 </div>
                 </div>
             <div id="num3" class="num">3</div>
+            <a id="start-link" href="TM_Page%201.html" target="_self">
             <button type="button" id="start-btn">
                 Start test
                 </button>
+            </a>
             </div>
             </div>
         <div id="dark-pnl">
@@ -321,7 +323,7 @@ body {
 
       <script>
 
-let data_text;
+let text_data;
 
 function _bg(elem) {
 
@@ -336,18 +338,18 @@ for (let i=0; i<txt.length; i++) {
     
     document.getElementById("discription").innerHTML = elem.attributes[2].value;
 
-    data_text = elem.attributes[3].value;
+    text_data = elem.attributes[3].value;
 
     store_data();
 }
 
 function store_data() {
 
-	if (localStorage.getItem('data_text')) {
-    	localStorage.removeItem('data_text');
+	if (localStorage.getItem('text_data')) {
+    	localStorage.removeItem('text_data');
 	}
 
-	localStorage.setItem('data_text', data_text);
+	localStorage.setItem('text_data', text_data);
 }
           
       
