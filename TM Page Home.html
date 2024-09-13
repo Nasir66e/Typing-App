@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hello, World!</title>
+    <style>
+        body {
+            overflow: hidden;
+            user-select: none;
+            margin-top: none;
+            background: #c3cdff;
+            color: #000000;
+        }
+
+        #mainpg {
+            height: 100%;
+            width: 100%;
+            background: transparent;
+            padding: 0px;
+            border-radius: 10px;
+        }
+
+        #panel {
+            height: 560px;
+            width: 772px;
+            background: #6a55d1;
+            /*#efffd7*/
+            border: 6px solid #6a55d1;
+            border-radius: 25px;
+            display: grid;
+            grid-template-columns: 2.7fr 1fr;
+            grid-template-rows: 1fr;
+            grid-column-gap: 0px;
+        }
+
+        #timermenu {
+            background: linear-gradient(to right, #efffd7, #efffd7, #efffd7, #efffd7, #6a55d1, #6a55d1);
+            /*#6a55d1*/
+            /*#d1f59e*/
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            padding-top: 0;
+            margin-left: -7px;
+        }
+
+
+
+        #result_pnl {
+            text-align: left;
+            font-family: Calibri;
+            background: linear-gradient(180deg, #def8b6, #f0ffd8, #f0fdde, #f0fdde, #f0fdde, #f0fdde, #f0fdde, #f0fdde, #f0fdde);
+            border-radius: 25px;
+            border-right: 6px solid #6a55d1;
+        }
+
+        #result_pnl h1:first-of-type {
+            font-size: 36px;
+            font-weight: 500;
+            letter-spacing: none;
+            color: #60763f;
+            margin-top: 6px;
+            padding-left: 16px;
+        }
+
+        #result_pnl #result {
+            height: 100%;
+            width: 100%;
+            /*
+            background: linear-gradient(to bottom, rgb(239 255 215), rgb(218 245 178));*/
+            background: linear-gradient(to bottom, rgb(239 255 215), rgb(239 255 215), rgb(239 255 215), rgb(218 245 178));
+            border-radius: 25px;
+        }
+
+        #header {
+            height: 80px;
+            width: 100%;
+            background: linear-gradient(to bottom, rgb(218 245 178), rgb(225 248 191), rgb(239 255 215), rgb(239 255 215));
+            padding: 0;
+            border-top-left-radius: 25px;
+            border-top-right-radius: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+
+
+        select {
+            height: 22px;
+            width: 165px;
+            padding: 1px;
+            margin-top: 14px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 15px;
+            background-color: rgb(51 153 255);
+            color: #fff;
+            border: none;
+            border-radius: none;
+            box-shadow: inset 1px 1px rgb(109 112 111);
+            appearance: none;
+            /* Remove default arrow */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        /* The container for the select element and custom arrow */
+        .custom-select {
+            height: 22px;
+            width: 165px;
+            display: inline-block;
+            background-color: transparent;
+            margin-right: 32px;
+        }
+
+        /* The custom arrow rgb(237 241 240)*/
+        .custom-select:after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid #000000;
+            /* Arrow color */
+            position: absolute;
+            top: 70%;
+            right: 20px;
+            transform: translateY(-50%);
+        }
+
+        /* Arrow container with border and background color */
+        .custom-select:before {
+            content: '';
+            position: absolute;
+            right: 16px;
+            top: 14px;
+            bottom: 44px;
+            height: 20px;
+            width: 15px;
+            background-color: rgb(237 241 240);
+            /* Light grey background for arrow container */
+            border-top: 1px solid rgb(109 112 111);
+            /* 2px border on top */
+            border-right: 1px solid rgb(109 112 111);
+            /* 2px border on right */
+            border-bottom: 1px solid rgb(109 112 111);
+            /* 2px border on bottom */
+            box-shadow: inset 1px 1px #ccc;
+        }
+
+        select:focus {
+            outline: none;
+        }
+
+        option {
+            background: #fff;
+            color: #000;
+        }
+
+        .course-box {
+            height: auto;
+            width: calc(100% - 32px);
+            padding: 0;
+            background-color: rgb(231 255 198);
+            /*#eeffcc*/
+            /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+            margin-top: -30px;
+            margin-left: 16px;
+        }
+
+
+        h2 {
+            background: linear-gradient(to bottom, rgb(231 255 198), rgb(194 239 129));
+            margin: 0;
+            padding: 10px;
+            color: #333;
+            font-size: 18px;
+            border: 1px solid rgb(142 173 97);
+        }
+
+        p {
+            color: #333;
+            font-size: 16px;
+            font-family: serif;
+            margin: 10px 10px;
+        }
+
+        .details {
+            margin-top: 18px;
+        }
+
+        .start-btn {
+            display: block;
+            height: 32px;
+            width: 160px;
+            padding: 6px auto 10px auto;
+            background: linear-gradient(to bottom, rgb(255 255 255), rgb(214 217 255));
+            border: 1px solid rgb(125 132 176);
+            border-radius: 5px;
+            color: rgb(46 2 132);
+            font-size: 14px;
+            font-weight: 400;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        #start-lnk {
+            text-decoration: none;
+        }
+
+        table {
+            width: 100%;
+            padding-left: 10px;
+            border: none;
+            margin-bottom: 10px;
+        }
+
+        table .bold {
+            width: 80px;
+        }
+
+        table td {
+            height: 22px;
+            border: 1px solid none;
+        }
+
+        #btn-box {
+            height: 36px;
+            border: 1px solid none;
+            align-content: flex-end;
+            padding-left: 126px;
+        }
+
+        #wraper {
+            border: 1px solid rgb(195 226 150);
+            border-top: 1px solid transparent;
+            margin-top: -1px;
+        }
+
+        #main-wrap {
+            width: 90%;
+        }
+
+        #select {
+            height: auto;
+            width: auto;
+            position: relative;
+
+        }
+
+        .other {
+            background: linear-gradient(to bottom, rgb(231 255 198), rgb(194 239 129));
+            color: rgb(28 13 128);
+            font-family: sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            width: calc(100% - 55px);
+            padding: 10px 10px 6px 10px;
+            margin-left: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgb(142 173 97);
+        }
+
+        .txt {
+            text-decoration: underline;
+        }
+
+        /* &#11206; */
+        .symbol {
+            height: 0px;
+            width: 0px;
+            border-bottom: none;
+            border-top: 8px solid rgb(61 76 38);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            text-decoration: none;
+            margin-top: -2px;
+        }
+
+        #entity {
+            border-top: 14px solid rgb(195 226 150);
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: none;
+            margin-top: 14px;
+            margin-bottom: 14px;
+            margin-left: calc(50% - 16px);
+        }
+
+        .side-btn {
+            height: 38px;
+            width: calc(100% + 6px);
+            background: #6a55d1;
+            color: #ffffff;
+            border: none;
+            /* #6a55d1 */
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .side-btn:first-of-type {
+            height: 48px;
+            border-bottom-left-radius: 16px;
+            border-top-right-radius: 18px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+        }
+
+        .side-btn:nth-of-type(2) {
+            position: relative;
+            background: #efffd7;
+            color: #000000;
+            width: calc(100% - 10px);
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+            margin-left: -26px;
+            padding-left: 14px;
+        }
+
+        .side-btn:nth-of-type(3) {
+            border-top-left-radius: 16px;
+        }
+
+        .side-btn:last-of-type {
+            position: relative;
+            height: 10%;
+            border-bottom-right-radius: 18px;
+        }
+
+        .side-btn:nth-of-type(2) .lft-arrow {
+            border-right-color: #ffffff;
+        }
+
+        .side-btn:nth-of-type(2) .lft-arrow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 10px;
+            width: 1px;
+            background: #bbbbbb;
+            transform: rotate(-60deg);
+            margin-left: 30px;
+            margin-top: 16px;
+        }
+
+        .side-btn:nth-of-type(2) .lft-arrow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 10px;
+            width: 1px;
+            background: #bbbbbb;
+            transform: rotate(60deg);
+            margin-left: 30px;
+            margin-top: 11px;
+        }
+
+        .lft-arrow {
+            height: 0px;
+            width: 0px;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-right: 9px solid #ffffff;
+            margin-left: 12px;
+            margin-right: 10px;
+        }
+
+        #cls-btn {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+            border: none;
+            padding: 14px;
+            border-radius: 20px;
+        }
+
+        #cls-x {
+            padding-left: 4px;
+            padding-right: 4px;
+            border: 1px solid rgb(100 100 100);
+            border-radius: 2px;
+            background: rgb(158 221 85);
+            font-family: cursive;
+            font-weight: bolder;
+            font-size: 12px;
+            margin-left: 6px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div id="mainpg">
+        <center>
+            <div id="panel">
+                <div id="result_pnl">
+                    <div id="result">
+                        <div id="header">
+                            <h1 id="page_title">Choose Course</h1>
+                            <div id="select">
+                                <div class="custom-select">
+                                    <select>
+                                        <option>English</option>
+                                        <option>Spanish</option>
+                                        <option>French</option>
+                                        <option>German</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="course-box">
+                            <h2>Touch Typing Course</h2>
+                            <div id="wraper">
+                                <p>In this course, you will learn the positions of the letter keys and common punctuation by heart. After completing the course you will be able to type with all ten fingers without looking at the keyboard.</p>
+
+                                <table class="details">
+                                    <tr>
+                                        <td class="bold"><strong>Duration</strong> </td>
+                                        <td>3:10 - 5:20 hours</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold"><strong>Lessons</strong></td>
+                                        <td> 12 lessons</td>
+                                        <td rowspan="2" id="btn-box"><a id="start-lnk" href="file:///C:/Users/Student/Downloads/Typing-Master-main/TM%20Page%203.html" target="_self"><button type="button" class="start-btn">Start Now</button></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold"><strong>Progress</strong></td>
+                                        <td>Not started</td>
+
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="entity" class="symbol"></div>
+                        <div class="other">
+                            <div class="txt">Speed Building Course</div>
+                            <div class="symbol"></div>
+                        </div>
+                        <div id="entity" class="symbol"></div>
+                        <div class="other">
+                            <div class="txt">Numbers, Special Marks and 10-Key Pad Coruses</div>
+                            <div class="symbol"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="timermenu">
+                    <div class="side-btn"><strong>
+                            <div id="cls-btn">Close<div id="cls-x">X</div>
+                            </div>
+                        </strong></div>
+                    <div class="side-btn">
+                        <div class="lft-arrow"></div><strong>Studying</strong>
+                    </div>
+                    <div class="side-btn">
+                        <div class="lft-arrow"></div><strong>Typing Meter</strong>
+                    </div>
+                    <div class="side-btn">
+                        <div class="lft-arrow"></div><strong>Custom Review</strong>
+                    </div>
+                    <div class="side-btn">
+                        <div class="lft-arrow"></div><strong>Typing Test</strong>
+                    </div>
+                    <div class="side-btn">
+                        <div class="lft-arrow"></div><strong>Games</strong>
+                    </div>
+                    <div class="side-btn">
+                        <div class="lft-arrow"></div><strong>Statistics</strong>
+                    </div>
+                    <div class="side-btn"></div>
+                    <div class="side-btn">
+                        <div class="lft-arrow"></div><strong>Settings</strong>
+                    </div>
+                    <div class="side-btn">
+                        <div class="lft-arrow"></div><strong>About</strong>
+                    </div>
+                    <div class="side-btn"></div>
+                    <div class="side-btn"></div>
+                    <div class="side-btn"></div>
+                    <div class="side-btn"></div>
+                </div>
+            </div>
+        </center>
+    </div>
+
+    <script>
+
+
+
+
+    </script>
+</body>
+
+</html>
