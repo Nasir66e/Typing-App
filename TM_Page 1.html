@@ -292,20 +292,22 @@ url = "content.json";
 
 	let globalData = fetch(url)
     .then((response) => response.json())
-    .catch(error => console.error)
-    
-    globalData.then(result => cont.push(result[text_data]));
+    .then(result => {
+        cont.push(result[text_data]);
+    })
+    .catch(error => console.error('Error:', error));
 	      
 window.onload = function() {
     if (cont.length > 0) {
-	    const warr = cont[0].split(" ");
-    contwarr = warr;
-    updateContent();
+        const warr = cont[0].split(" ");
+        contwarr = warr;
+        updateContent();
     } else {
-	    console.log(cont.length);
-	    console.log(cont);
-	    console.log(result[text_data]);
-	    console.log(result[0]);
+        console.log(cont.length);
+        console.log(cont);
+        console.log(result[text_data]); // Make sure result is populated here
+        console.log(result[0]);
+    }
 };
           
 //--------------------------- Start Typing --------------------
@@ -517,11 +519,11 @@ function gameOver() {
 }
 
 if(gmOver = true) {
-    
+    console.log('Game Over');
 }
           
 function show_result() {
-    
+    console.log('show_result function called successfully')
 }
           
       
