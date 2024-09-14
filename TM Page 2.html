@@ -290,8 +290,8 @@ body {
       <div id="timermenu">
         
         <div class="spc"> </div>
-        <div id="nxt"><button type="button" id="nxtbtn" class="nxtbtn_" onclick="gameOver()"><span style="text-decoration:underline">N</span>ext</button></div>
-        <div id="cls"><button type="button" id="clsbtn" class="clsbtn_" onclick=""><span style="text-decoration:underline">C</span>ancel</button> </div>
+        <div id="nxt"><button type="button" id="nxtbtn" class="nxtbtn_" onclick="go('TM%20Page%203.html')"><span style="text-decoration:underline">N</span>ext</button></div>
+        <div id="cls"><button type="button" id="clsbtn" class="clsbtn_" onclick="go('index.html')"><span style="text-decoration:underline">C</span>ancel</button> </div>
       </div>
     </div>
   </center>
@@ -299,7 +299,9 @@ body {
 
       <script>
 
-
+function go(url) {
+    window.location.href = url;
+}
           
       
       </script>
