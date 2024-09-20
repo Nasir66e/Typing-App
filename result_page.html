@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Typing Master</title>
-     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
 body {
-  /*overflow: hidden;*/
+  overflow: hidden;
   user-select: none;
   margin-top: none;
   background: #c3cdff;
@@ -209,13 +208,24 @@ body {
             text-align: left;
             color: #28301f;
         }
-        #diffKeysChart {
-            background: transparent;
-            border: none;
-            outline: none;
-            width: 280px;
-            height: 90px;
-            margin-top: -141px;
+
+        #chart {
+          height: 100px;
+          width: 342px;
+          background: transparent;
+          display: flex;
+          align-items: flex-end;
+          justify-content: flex-start;
+          margin-left: 1px;
+          margin-top: -101px;
+        }
+
+        .bar {
+          height: 0px;
+          width: 22px;
+          background-color: transparent;
+          border: 1px solid #919191;
+          border-bottom: none;
         }
         
     </style>
@@ -238,7 +248,7 @@ body {
         <table>
             <tr>
                 <td><b>Time Used</b></td>
-                <td id="time-used">2:00min.</td>
+                <td id="time-used">2:00 min.</td>
             </tr>
             <tr>
                 <td><b>Groos Speed</b></td>
@@ -260,7 +270,16 @@ body {
             <div style="border-bottom:1px solid #a2bb7c"><p>Difficult</p></div>
             <div><p>OK</p></div>
             </div>
-            <canvas id="diffKeysChart"></canvas>
+            <div id="chart">
+              <div id="bar-1" class="bar" style="margin-left: 4px;"></div>
+              <div id="bar-2" class="bar" style="margin-left: 8px;"></div>
+              <div id="bar-3" class="bar" style="margin-left: 6px;"></div>
+              <div id="bar-4" class="bar" style="margin-left: 6px;"></div>
+              <div id="bar-5" class="bar" style="margin-left: 8px;"></div>
+              <div id="bar-6" class="bar" style="margin-left: 8px;"></div>
+              <div id="bar-7" class="bar" style="margin-left: 6px;"></div>
+              <div id="bar-8" class="bar" style="margin-left: 8px;"></div>
+            </div>
             <div id="keys">
             <table>
                 <tr>
@@ -338,11 +357,11 @@ function get_results() {
   frequencies = frequencies.map(function(item) { return parseInt(item); });
   frequencies = frequencies.map(function(item) { return item > 12 ? 12 : item; });
 
-  if (diff_keys.length > 0 && diff_keys.length > 8) {
+  if (diff_keys.length > 8) {
     diff_keys = diff_keys.slice(0, 8);
   }
 
-  if (frequencies.length > 0 && frequencies.length > diff_keys.length) {
+  if (frequencies.length > diff_keys.length) {
     frequencies = frequencies.slice(0, diff_keys.length - 1);
   }
 
@@ -355,6 +374,7 @@ function get_results() {
 }
 
 function go(url) {
+    localStorage.clear();
     window.location.href = url;
 }
 
@@ -365,60 +385,17 @@ window.onload = function() {
 };
 
 function create_chart() {
-
-    // Get the canvas context for the chart
-    var ctx = document.getElementById('diffKeysChart').getContext('2d');
-
-    // Assign bars color based on frequency
-    var barColor = frequencies.map(function(freq) {
-        if (freq > 8) {
-            return 'rgb(255 0 78)'; // Frequency greater than 8
-        } else if (freq > 4) {
-            return 'rgb(255 210 17)'; // Frequency greater than 4
-        } else {
-            return 'rgb(168 181 247)'; // Default color for others
-        }
-    });
-
-    // Create the bar chart
-    var diffKeysChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: diff_keys, // The keys as labels for the X-axis
-            datasets: [{
-                data: frequencies, // The corresponding difficulty counts for the keys
-                backgroundColor: barColor, // Semi-transparent bars
-                borderColor: 'rgb(63 63 63)', // Bar border color
-                borderWidth: 1
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: false // Disable the legend
-                }
-            },
-            scales: {
-                x: {
-                    display: false, // Hide the X-axis
-                    beginAtZero: true,
-                    // Adjust spacing between bars
-                    barPercentage: 1,  // Width of bars (default is 0.9)
-                    categoryPercentage: 0.99 // Width of the bar category (default is 0.8)
-                },
-                y: {
-                    display: false, // Hide the Y-axis
-                    beginAtZero: true,
-                    suggestedMax: 15 // Set maximum Y-axis value to control bar height
-                }
-            },
-            responsive: false, // Disable responsiveness to control size manually
-            maintainAspectRatio: true, // Maintain aspect ratio
-            layout: {
-                padding: 0 // Remove any padding
-            }
-        }
-    });
+  for (let i=0; i<frequencies.length; i++) {
+    let barHeight = (frequencies[i] * 8) + 'px';
+    document.getElementById(`bar-${i+1}`).style.height = barHeight;
+    if (frequencies[i] > 8) {
+      document.getElementById(`bar-${i+1}`).style.background = 'rgb(255 0 78)';
+    } else if (frequencies[i] > 4) {
+      document.getElementById(`bar-${i+1}`).style.background = 'rgb(255 210 17)';
+    } else {
+      document.getElementById(`bar-${i+1}`).style.background = 'rgb(168 181 247)';
+    }
+  }
 }
 
 function set_results() {
@@ -437,7 +414,7 @@ function set_results() {
     }
   }
 
-}          
+}        
       
       </script>
   </body>
