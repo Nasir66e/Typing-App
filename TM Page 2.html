@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hello, World!</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Master</title>
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
 body {
-  overflow: hidden;
+  /*overflow: hidden;*/
   user-select: none;
   margin-top: none;
   background: #c3cdff;
@@ -206,6 +209,14 @@ body {
             text-align: left;
             color: #28301f;
         }
+        #diffKeysChart {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 280px;
+            height: 90px;
+            margin-top: -141px;
+        }
         
     </style>
   </head>
@@ -217,29 +228,29 @@ body {
         <div id="result_pnl">
     <h1 id="page_title">Typing Test Results</h1>
         <div id="result">
-        <p><span><b>Test Interrupted</b></span>
+        <p><span id="msg-head"><b>Test Interrupted</b></span>
         <br>
         <!--Test Passed-->
-        The test was interrupted before the time was up.
+        <span id="message">The test was interrupted before the time was up.</span>
         </p>
         <!--You completed this typing test.-->
         <div id="table">
         <table>
             <tr>
                 <td><b>Time Used</b></td>
-                <td>2:00min</td>
+                <td id="time-used">2:00min.</td>
             </tr>
             <tr>
                 <td><b>Groos Speed</b></td>
-                <td>0 wpm</td>
+                <td id="gross-speed">0 wpm</td>
             </tr>
             <tr>
                 <td><b>Accuracy</b></td>
-                <td>0%</td>
+                <td id="accuracy">0%</td>
             </tr>
             <tr>
                 <td><b>Net Speed</b></td>
-                <td>0 wpm</td>
+                <td id="net-speed">0 wpm</td>
             </tr>
         </table>
             </div>
@@ -249,6 +260,7 @@ body {
             <div style="border-bottom:1px solid #a2bb7c"><p>Difficult</p></div>
             <div><p>OK</p></div>
             </div>
+            <canvas id="diffKeysChart"></canvas>
             <div id="keys">
             <table>
                 <tr>
@@ -268,16 +280,16 @@ body {
             <div id="letter">
             <table>
                 <tr>
-                <td class="key 1">f</td>
-                <td class="key 2">,</td>
-                <td class="key 3">h</td>
-                <td class="key 4">e</td>
-                <td class="key 5">b</td>
-                <td class="key 6">I</td>
-                <td class="key 7"></td>
-                <td class="key 8"></td>
-                <td class="key 9"></td>
-                <td class="key 10"></td>
+                <td id="key-1" class="key"></td>
+                <td id="key-2" class="key"></td>
+                <td id="key-3" class="key"></td>
+                <td id="key-4" class="key"></td>
+                <td id="key-5" class="key"></td>
+                <td id="key-6" class="key"></td>
+                <td id="key-7" class="key"></td>
+                <td id="key-8" class="key"></td>
+                <td id="key-9" class="key"></td>
+                <td id="key-10" class="key"></td>
                 </tr>
                 </table>
             </div>
@@ -290,19 +302,134 @@ body {
       <div id="timermenu">
         
         <div class="spc"> </div>
-        <div id="nxt"><button type="button" id="nxtbtn" class="nxtbtn_" onclick="go('TM%20Page%203.html')"><span style="text-decoration:underline">N</span>ext</button></div>
+        <div id="nxt"><button type="button" id="nxtbtn" class="nxtbtn_" onclick="go('content_page.html')"><span style="text-decoration:underline">N</span>ext</button></div>
         <div id="cls"><button type="button" id="clsbtn" class="clsbtn_" onclick="go('index.html')"><span style="text-decoration:underline">C</span>ancel</button> </div>
       </div>
     </div>
   </center>
 </div>     
-
       <script>
+
+let msg_head_elem = document.getElementById('msg-head');
+let message_elem = document.getElementById('message');
+let time_used_elem = document.getElementById('time-used');
+let gross_speed_elem = document.getElementById('gross-speed');
+let accuracy_elem = document.getElementById('accuracy');
+let net_speed_elem = document.getElementById('net-speed');
+
+let message;
+let time_used;
+let gross_speed;
+let accuracy;
+let net_speed;
+let diff_keys;
+let frequencies;
+
+function get_results() {
+  message = localStorage.getItem('message');
+  time_used = localStorage.getItem('time-used');
+  gross_speed = localStorage.getItem('gross-speed');
+  accuracy = localStorage.getItem('accuracy');
+  net_speed = localStorage.getItem('net-speed');
+  diff_keys = localStorage.getItem('diffKeys');
+  diff_keys = diff_keys.split(',');
+  frequencies = localStorage.getItem('frequencies');
+  frequencies = frequencies.split(',');
+  frequencies = frequencies.map(function(item) { return parseInt(item); });
+  frequencies = frequencies.map(function(item) { return item > 12 ? 12 : item; });
+
+  if (diff_keys.length > 0 && diff_keys.length > 8) {
+    diff_keys = diff_keys.slice(0, 8);
+  }
+
+  if (frequencies.length > 0 && frequencies.length > diff_keys.length) {
+    frequencies = frequencies.slice(0, diff_keys.length - 1);
+  }
+
+  create_chart();
+  set_results();
+}
 
 function go(url) {
     window.location.href = url;
 }
-          
+
+window.onload = function() {
+
+  get_results();
+
+};
+
+function create_chart() {
+
+    // Get the canvas context for the chart
+    var ctx = document.getElementById('diffKeysChart').getContext('2d');
+
+    // Assign bars color based on frequency
+    var barColor = frequencies.map(function(freq) {
+        if (freq > 8) {
+            return 'rgb(255 0 78)'; // Frequency greater than 8
+        } else if (freq > 4) {
+            return 'rgb(255 210 17)'; // Frequency greater than 4
+        } else {
+            return 'rgb(168 181 247)'; // Default color for others
+        }
+    });
+
+    // Create the bar chart
+    var diffKeysChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: diff_keys, // The keys as labels for the X-axis
+            datasets: [{
+                data: frequencies, // The corresponding difficulty counts for the keys
+                backgroundColor: barColor, // Semi-transparent bars
+                borderColor: 'rgb(63 63 63)', // Bar border color
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false // Disable the legend
+                }
+            },
+            scales: {
+                x: {
+                    display: false // Hide the X-axis
+                },
+                y: {
+                    display: false, // Hide the Y-axis
+                    beginAtZero: true,
+                    suggestedMax: 15 // Set maximum Y-axis value to control bar height
+                }
+            },
+            responsive: false, // Disable responsiveness to control size manually
+            maintainAspectRatio: true, // Maintain aspect ratio
+            layout: {
+                padding: 0 // Remove any padding
+            }
+        }
+    });
+}
+
+function set_results() {
+
+  let minutes = Math.floor(time_used / 60);
+  let seconds = time_used % 60;
+
+  time_used_elem.innerText = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ' min.';
+  gross_speed_elem.innerText = gross_speed + ' wpm';
+  accuracy_elem.innerText = accuracy + '%';
+  net_speed_elem.innerText = net_speed + ' wpm';
+
+  for (let i=0; i<8; i++) {
+    if (diff_keys[i] !== undefined) {
+      document.getElementById(`key-${i+1}`).innerText = diff_keys[i];
+    }
+  }
+
+}          
       
       </script>
   </body>
