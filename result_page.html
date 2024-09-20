@@ -346,6 +346,10 @@ function get_results() {
     frequencies = frequencies.slice(0, diff_keys.length - 1);
   }
 
+  if (frequencies.length < 12) {
+    frequencies = frequencies.map(function(item) { return frequencies.length < 12 ? frequencies.push(0) : false; });
+  }
+
   create_chart();
   set_results();
 }
