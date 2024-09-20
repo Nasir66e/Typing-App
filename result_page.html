@@ -385,7 +385,7 @@ window.onload = function() {
 };
 
 function create_chart() {
-  for (let i=0; i<frequencies.length; i++) {
+  for (let i=0; i<=frequencies.length; i++) {
     let barHeight = (frequencies[i] * 8) + 'px';
     document.getElementById(`bar-${i+1}`).style.height = barHeight;
     if (frequencies[i] == 0) {
