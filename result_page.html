@@ -369,6 +369,8 @@ function get_results() {
     frequencies = frequencies.map(function(item) { return frequencies.length < 12 ? frequencies.push(0) : false; });
   }
 
+  frequencies = frequencies.sort(function(a, b) { return b - a; });
+
   create_chart();
   set_results();
 }
@@ -389,7 +391,7 @@ function create_chart() {
     let barHeight = (frequencies[i] * 8) + 'px';
     document.getElementById(`bar-${i+1}`).style.height = barHeight;
     if (frequencies[i] == 0) {
-      document.getElementById(`bar-${i+1}`).style.border = 'none';
+      document.getElementById(`bar-${i+1}`).style.border = '1px solid transparent';
     } else if (frequencies[i] > 8) {
       document.getElementById(`bar-${i+1}`).style.background = 'rgb(255 0 78)';
     } else if (frequencies[i] > 4) {
