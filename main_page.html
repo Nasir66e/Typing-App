@@ -547,14 +547,30 @@
                     document.getElementById(`c${contcrrwno - 1}`).style.color = "#546e30"; // change back color of previous word in the content to GREEN 
                     document.getElementById(`c${contcrrwno - 1}`).style.textDecoration = "none"; // remove underline the previous word in the content
                 }
-                document.getElementById(`c${contcrrwno}`).style.color = "#3f10cb"; // change color to BLUE for current word in the content
-                document.getElementById(`c${contcrrwno}`).style.textDecoration = "underline"; // underline the current word in the content
-            }
 
+        // Get the current word span element
+        const currentWordSpan = document.getElementById(`c${contcrrwno}`);
 
-            lastword = "";
-            backspaces = 0;
+        if (currentWordSpan) { // Check if the element actually exists
+            currentWordSpan.style.color = "#3f10cb"; // change color to BLUE
+            currentWordSpan.style.textDecoration = "underline"; // underline
+
+            // Scroll the content box so the current word is visible
+            currentWordSpan.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        } else {
+             // Optional: Log a warning if the element isn't found (might indicate an issue elsewhere)
+             console.warn(`Element c${contcrrwno} not found for styling/scrolling.`);
         }
+    } 
+
+    lastword = "";
+    backspaces = 0;
+
+    // Optional but good: ensure the typing area also scrolls to the bottom if needed
+    inptxtpnl.scrollTop = inptxtpnl.scrollHeight;
+
+} // End of proceedSpacebarPressEventHandling
 
         //------------------handle time events-------------------
 
