@@ -79,16 +79,23 @@ async function fetchData() {
 //------------------- Initialize UI -------------------
 
 function updateContent() {
-    while (currentWordCount < contentWords.length && contentPanel.scrollHeight <= MAX_SCROLL_HEIGHT) {
-        let wordSpan = `<span id="c${currentWordCount}">${contentWords[currentWordCount]}</span> `;
-        contentPanel.innerHTML += wordSpan;
-        const span = document.getElementById(`c${currentWordCount}`);
-        span.style.color = "#546e30";
-        currentWordCount++;
-    }
+    const MAX_SCROLL_HEIGHT = 278; // Adjust if your design changes
 
-    if (contentPanel.scrollHeight > MAX_SCROLL_HEIGHT && currentWordCount > 0) {
-        currentWordCount -= 1;
+    while (currentWordCount < contentWords.length) {
+        const span = document.createElement("span");
+        span.id = `c${currentWordCount}`;
+        span.textContent = contentWords[currentWordCount] + " ";
+        span.style.color = "#546e30";
+
+        contentPanel.appendChild(span);
+
+        // Check if adding this word overflowed the container
+        if (contentPanel.scrollHeight > MAX_SCROLL_HEIGHT) {
+            contentPanel.removeChild(span); // Remove last word
+            break;
+        }
+
+        currentWordCount++;
     }
 
     initTypingArea();
