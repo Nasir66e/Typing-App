@@ -531,44 +531,60 @@
         }
 
         function proceedSpacebarPressEventHandling() {
-            inpwarr.push(lastword); // push last typed word into the array of typed words
-            if (lastword !== "") { // only if user has typed something, last typed word was not deleted with backspaces
-                spaces++; // add up the number of times spacebar has been pressed
+            inpwarr.push(lastword); // Store the completed word
+            spaces++; // Increment space counter
 
-                checkInputWord();
-                contcrrwno++;
-                if (totalWordsTyped < totalWords) {
-                    inptxtpnl.innerHTML += `&nbsp<span id="inpw${totalWordsTyped}"></span>`;
+            // Check correctness of the word just completed
+            checkInputWord(); // Uses totalWordsTyped and contcrrwno related to the *completed* word
+
+            // Increment content word index AFTER checking the completed one
+            contcrrwno++;
+
+            // --- Prepare for the NEXT word ---
+            if (totalWordsTyped < totalWords && contcrrwno < totalWords) { // Check bounds
+                // Add the next empty span for the user to type into
+                inptxtpnl.innerHTML += ` <span id="inpw${totalWordsTyped}"></span>`;
+
+                // Update styling: Reset previous word
+                if (contcrrwno > 0) {
+                    const prevWordSpanContent = document.getElementById(`c${contcrrwno - 1}`);
+                    if (prevWordSpanContent) {
+                        prevWordSpanContent.style.color = "#546e30";
+                        prevWordSpanContent.style.textDecoration = "none";
+                    }
                 }
 
-                if (contcrrwno === contwarr.length) {
-                    contcrrwno--;
-                } else if (contcrrwno > 0) {
-                    document.getElementById(`c${contcrrwno - 1}`).style.color = "#546e30"; // change back color of previous word in the content to GREEN 
-                    document.getElementById(`c${contcrrwno - 1}`).style.textDecoration = "none"; // remove underline the previous word in the content
+                // Highlight the NEW current word (contcrrwno) and handle scrolling
+                const currentWordSpanContent = document.getElementById(`c${contcrrwno}`);
+                if (currentWordSpanContent) { // Check if the element exists
+                    // Highlight the word
+                    currentWordSpanContent.style.color = "#3f10cb"; // Blue
+                    currentWordSpanContent.style.textDecoration = "underline";
+
+                    // *** SCROLLING LOGIC *** (No redundant check needed here)
+                    const containerRect = contpnl.getBoundingClientRect();
+                    const elementRect = currentWordSpanContent.getBoundingClientRect();
+
+                    // Check if the top of the *next* word is below the container's visible bottom edge,
+                    // OR if the bottom of the *next* word is above the container's visible top edge.
+                    if (elementRect.bottom >= containerRect.bottom) {
+                        // The next word is outside the visible area, scroll it into view instantly.
+                        currentWordSpanContent.scrollIntoView({ behavior: 'auto', block: 'start' });
+                    }
+                    // If the element is already visible, do nothing.
+                    // --- End of Scrolling Logic ---
+
+                } else {
+                    // Only log warning if the element for the *current* word wasn't found
+                    console.warn(`Content span c${contcrrwno} not found for highlighting.`);
                 }
 
-        // Get the current word span element
-        const currentWordSpan = document.getElementById(`c${contcrrwno}`);
+            } // End of the main 'if (totalWordsTyped < totalWords && contcrrwno < totalWords)' block
 
-        if (currentWordSpan) { // Check if the element actually exists
-            currentWordSpan.style.color = "#3f10cb"; // change color to BLUE
-            currentWordSpan.style.textDecoration = "underline"; // underline
-
-            // Scroll the content box so the current word is visible
-            currentWordSpan.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-        } else {
-             // Optional: Log a warning if the element isn't found (might indicate an issue elsewhere)
-             console.warn(`Element c${contcrrwno} not found for styling/scrolling.`);
-        }
-    } 
-
-    lastword = "";
-    backspaces = 0;
-
-    // Optional but good: ensure the typing area also scrolls to the bottom if needed
-    inptxtpnl.scrollTop = inptxtpnl.scrollHeight;
+            // Reset state for the next word to be typed
+            lastword = "";
+            backspaces = 0;
+            contcrrchno = 0; // Reset character index for the new word
 
 } // End of proceedSpacebarPressEventHandling
 
