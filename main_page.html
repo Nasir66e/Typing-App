@@ -264,7 +264,7 @@
 
     <script>
         var started = false; // Flag
-        var timeLeft = localStorage.getItem('durationSelected');
+        var timeLeft = parseInt(localStorage.getItem('durationSelected')) || 60; // fallback to 60 seconds;
         var timeElapsed = 0;
         var minutes = 0;
         var remainingSeconds = 0;
@@ -301,7 +301,7 @@
         var inptxtpnl = document.getElementById("txtera");
         var contpnl = document.querySelector("#contentbox");
         var contspan = document.querySelector('#contspn');
-        var clock = document.getElementById('#digitalClock');
+        var clock = document.getElementById('digitalClock');
 
         document.addEventListener("contextmenu", (event) => event.preventDefault());
         document.addEventListener("copy", (event) => event.preventDefault());
