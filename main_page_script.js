@@ -1,0 +1,491 @@
+	// main_page_script.js
+
+	      var started = false; // Flag
+        var timeLeft = parseInt(localStorage.getItem('durationSelected')) || 60; // fallback to 60 seconds;
+        var timeElapsed = 0;
+        var minutes = 0;
+        var remainingSeconds = 0;
+        var formattedTime = "";
+        var errors = 0;
+        var lastword = "";
+        var backspaces = 0; // number of backspace pressed ,after characters typed ,in current content word
+        var spaces = 0;
+        var contcrrwno = 0; // in content current word number
+        var contcrrchno = 0; // in content current character number
+        var allinptxtlen = 0;
+        var allinptxt = "";
+        var inpwarr = []; // store all the words typed
+        // var content_array = [];
+        var inpcharr = allinptxt.split("");
+        var correctWords = 0;
+        var wrongWords = 0;
+        var contLen = 0; // provided content length in words
+        var totalWords = 0; // number of total words to be typed 
+        var totalWordsTyped = 0;
+        var totalStrokes = 0;
+        var currentWord = contcrrwno + 1;
+        var timer = null;
+        var result = null;
+        let gmOver = false;
+        var extraKeys = [];
+        var diffKeys = [];
+        var missedKeys = [];
+        let charFreq = {}; // stores the frequency of difficult, extra and missed keys 
+        let sortedDiffKeys = [];
+        let sortedFreqs = [];
+        let prevDiffKeys = JSON.parse(localStorage.getItem('prevDiffKeys') || '[]'); // parse localStorage item into an array
+
+        //var timetxt = document.querySelector(".timebox");
+        var inptxtpnl = document.getElementById("txtera");
+        var contpnl = document.querySelector("#contentbox");
+        var contspan = document.querySelector('#contspn');
+        var clock = document.getElementById('digitalClock');
+
+        document.addEventListener("contextmenu", (event) => event.preventDefault());
+        document.addEventListener("copy", (event) => event.preventDefault());
+        document.addEventListener("paste", (event) => event.preventDefault());
+        inptxtpnl.addEventListener("dragstart", (event) => event.preventDefault());
+        inptxtpnl.addEventListener("select", (event) => event.preventDefault());
+
+        var alphabets = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+-=/.,|[]}'"`; // \{
+        var cont = [];
+        var contwarr;
+        var totalWordsInContent;
+
+        //--------------------------- Listen Request ---------------------------
+
+        let text_data = localStorage.getItem('text_data');
+
+        //--------------------------- Load Text --------------------
+
+        url = "content.json";
+
+        let globalData;
+
+        async function fetchData() {
+            try {
+                // Fetch data from the URL
+                const response = await fetch(url);
+
+                const result = await response.json();
+
+                cont.push(result[text_data]);
+
+                const warr = cont[0].split(" ");
+
+                contwarr = warr;
+
+                totalWords = warr.length;
+                contLen = warr.length;
+
+                updateContent();
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        window.onload = function() {
+
+            fetchData();
+        };
+
+        //--------------------------- Start Typing --------------------
+        var wrd = 0;
+        var pgEnd = 0;
+
+        function updateContent() {
+            for (let i = wrd; i < contLen; i++) {
+                if (contpnl.scrollHeight > 278) {
+                    pgEnd = wrd - 2;
+                    wrd -= 1;
+                    break;
+                }
+                contpnl.innerHTML += `<span id="c${i}">${contwarr[i]}</span>` + " ";
+                document.getElementById(`c${i}`).style.color = "#546e30"; // color each word to GREEN
+                document.getElementById(`c${i}`).style.textDecoration = "none";
+                wrd++;
+            }
+            init();
+        }
+
+        function init() {
+            // totalWordsInContent = contwarr.length;
+            document.getElementById(`c${0}`).style.color = "#3f10cb"; // change color to BLUE for current word in the content
+            document.getElementById(`c${0}`).style.textDecoration = "underline"; // underline the current word in the content
+            inptxtpnl.innerHTML += `<span id="inpw${totalWordsTyped}" ></span>`; // create a blank span (with empty string) in textarea in which current word will be typed
+
+            inptxtpnl.scrollTop = inptxtpnl.scrollHeight; // keep the scroll height of content area to the top
+        }
+
+
+        //-------------------------------------------------------------------------          
+        //---------------------- HANDLE KEY PRESS EVENT ---------------------------
+        //-------------------------------------------------------------------------
+
+        document.addEventListener("keydown", function(e) {
+
+            allinptxt = inptxtpnl.innerText;
+            allinptxtlen = allinptxt.length;
+
+            //--------------handle ALPHANUMERIC keys events---------------
+
+            if (alphabets.includes(e.key) && contcrrwno < totalWords) {
+
+                if (totalWordsTyped === totalWords) {
+                    inptxtpnl.addEventListener("keydown", (event) => event.preventDefault());
+                    if (gmOver === false) {
+                        console.log(totalWords);
+                        gameOver();
+                    }
+                }
+
+                // if (contcrrchno == 0) {
+                //     timer = setInterval(updateTimer, 1000); // set interval for time updating
+                // }
+
+                contcrrchno++; // update content's current character (typed) number
+                lastword += e.key; // add up alphanueric character to the word currently typing (latest/last word)
+                totalStrokes++; // add up number of times the alphanumeric keys were pressed
+
+                if (lastword.length <= contwarr[contcrrwno].length) {
+                    // Compare last typed character with the corresponding one in the content
+                    let correctChar = contwarr[contcrrwno][lastword.length - 1];
+                    if (e.key !== correctChar) {
+                        diffKeys.push(e.key);
+                    }
+                } else if (lastword.length > contwarr[contcrrwno].length) {
+                    extraKeys.push(e.key);
+                }
+
+                document.querySelector(`#inpw${totalWordsTyped}`).innerHTML = lastword; // update latest/last word in textarea
+
+                backspaces++; // add up number of allowed backspaces, here backspaces allowed is equal to number of characters in latest/last word
+
+                if (totalStrokes == 1) {
+                    startTimer(); // start the time updating on first alphanumeric key pressed
+                }
+            }
+
+            // ------------- if pressed key is alphanumeric and all the words has been typed ------------------
+            else if (alphabets.includes(e.key) && contcrrwno === totalWords) {
+                inptxtpnl.addEventListener("keydown", (event) => event.preventDefault());
+                if (gmOver === false) {
+                    gameOver();
+                }
+            }
+
+            //--------------handle BACKSPACE events-----------------
+
+            //if user has not typed even a single character of new word and is hitting backspace
+            if (e.which == 8 && backspaces == 0) {
+                e.preventDefault();
+            }
+
+            //if user try to delete word before going to next one
+            else if (e.which == 8 && backspaces > 0) {
+                let delarr = lastword.split("");
+                delarr.pop();
+                lastword = delarr.join("");
+                document.querySelector(`#inpw${totalWordsTyped}`).innerHTML = lastword;
+                backspaces--;
+                contcrrchno--;
+            }
+
+            //--------------handle SPACEBAR events-------------------
+
+            //if user hit spacebar, move to the next word //if the word is not the last one
+            if (e.keyCode === 32 && lastword !== "" && contcrrwno < totalWords) {
+                totalWordsTyped++;
+                if (totalWordsTyped === totalWords) {
+                    // --------------------- If all the content has been typed but given time is remaining -----------------
+                    if (timeLeft > 0) {
+                        contpnl.innerHTML = " ";
+                        backspaces = 0;
+                        wrd = 0;
+                        if (totalWordsTyped == totalWords) {
+                            inptxtpnl.innerHTML += `&nbsp`;
+                        }
+                        updateContent();
+                        proceedSpacebarPressEventHandling();
+                        document.getElementById(`c${contwarr.length - 1}`).style.color = "#546e30"; // change color of last word in the content to GREEN 
+                        document.getElementById(`c${contwarr.length - 1}`).style.textDecoration = "none"; // remove underline the last word in the content
+                        contcrrwno = 0;
+                        totalWords = totalWords + contwarr.length;
+
+                        // ------------------------------------------------------------------------------------------------------
+                    } else {
+                        // ---------------------- If all the content has been typed and time is up -----------------------
+                        inpwarr.push(lastword);
+                        // check if user has entered a correct word
+                        if (inpwarr[contcrrwno] === contwarr[contcrrwno]) {
+                            correctWords++;
+                        } else {
+                            wrongWords++;
+                        }
+
+                        changeWordStyle();
+
+                        lastword = "";
+                        backspaces = 0;
+
+                        inptxtpnl.addEventListener("keydown", (event) => event.preventDefault());
+
+                        if (gmOver === false) {
+                            gameOver();
+                        }
+                    }
+                } else {
+                    proceedSpacebarPressEventHandling();
+                }
+
+            }
+        });
+
+        function changeWordStyle() {
+            document.getElementById(`c${contcrrwno - 1}`).style.color = "#546e30"; // change back color of previous word in the content to GREEN
+            document.getElementById(`c${contcrrwno - 1}`).style.textDecoration = "none"; // remove underline the previous word in the content
+        }
+
+        function checkInputWord() {
+            // check whether user has entered a correct word
+            // console.log(inpwarr[totalWordsTyped-1],' === ',contwarr[contcrrwno]);
+            if (inpwarr[totalWordsTyped - 1] === contwarr[contcrrwno]) {
+                correctWords++;
+            } else {
+                wrongWords++;
+                // present the wrong typed word with red underline color
+                document.querySelector(`#inpw${totalWordsTyped-1}`).style.textDecoration = "underline";
+                document.querySelector(`#inpw${totalWordsTyped-1}`).style.textDecorationColor = "#e94f69";
+
+                // Loop through the characters of correctWord
+                for (let i = 0; i < contwarr[contcrrwno].length; i++) {
+                    // Check if the character at index 'i' of correctWord is missing in typedWord
+                    if (inpwarr[totalWordsTyped - 1][i] !== contwarr[contcrrwno][i]) {
+                        missedKeys.push(contwarr[contcrrwno][i]);
+                    }
+                }
+            }
+        }
+
+        function proceedSpacebarPressEventHandling() {
+            inpwarr.push(lastword); // Store the completed word
+            spaces++; // Increment space counter
+
+            // Check correctness of the word just completed
+            checkInputWord(); // Uses totalWordsTyped and contcrrwno related to the *completed* word
+
+            // Increment content word index AFTER checking the completed one
+            contcrrwno++;
+
+            // --- Prepare for the NEXT word ---
+            if (totalWordsTyped < totalWords && contcrrwno < totalWords) { // Check bounds
+                // Add the next empty span for the user to type into
+                inptxtpnl.innerHTML += ` <span id="inpw${totalWordsTyped}"></span>`;
+
+                // Update styling: Reset previous word
+                if (contcrrwno > 0) {
+                    const prevWordSpanContent = document.getElementById(`c${contcrrwno - 1}`);
+                    if (prevWordSpanContent) {
+                        prevWordSpanContent.style.color = "#546e30";
+                        prevWordSpanContent.style.textDecoration = "none";
+                    }
+                }
+
+                // Highlight the NEW current word (contcrrwno) and handle scrolling
+                const currentWordSpanContent = document.getElementById(`c${contcrrwno}`);
+                if (currentWordSpanContent) { // Check if the element exists
+                    // Highlight the word
+                    currentWordSpanContent.style.color = "#3f10cb"; // Blue
+                    currentWordSpanContent.style.textDecoration = "underline";
+
+                    // *** SCROLLING LOGIC *** (No redundant check needed here)
+                    const containerRect = contpnl.getBoundingClientRect();
+                    const elementRect = currentWordSpanContent.getBoundingClientRect();
+
+                    // Check if the top of the *next* word is below the container's visible bottom edge,
+                    // OR if the bottom of the *next* word is above the container's visible top edge.
+                    if (elementRect.bottom >= containerRect.bottom) {
+                        // The next word is outside the visible area, scroll it into view instantly.
+                        currentWordSpanContent.scrollIntoView({ behavior: 'auto', block: 'start' });
+                    }
+                    // If the element is already visible, do nothing.
+                    // --- End of Scrolling Logic ---
+
+                } else {
+                    // Only log warning if the element for the *current* word wasn't found
+                    console.warn(`Content span c${contcrrwno} not found for highlighting.`);
+                }
+
+            } // End of the main 'if (totalWordsTyped < totalWords && contcrrwno < totalWords)' block
+
+            // Reset state for the next word to be typed
+            lastword = "";
+            backspaces = 0;
+            contcrrchno = 0; // Reset character index for the new word
+
+} // End of proceedSpacebarPressEventHandling
+
+        //------------------handle time events-------------------
+
+        function startTimer() {
+            if (!started) {
+                timer = setInterval(updateTimer, 1000);
+                started = true;
+    }
+}
+        
+        function updateTimer() {
+            if (timeLeft > 0) {
+
+                timeLeft--;
+
+                // increase the time elapsed 
+                timeElapsed++;
+
+                minutes = Math.floor(timeLeft / 60);
+                remainingSeconds = timeLeft % 60;
+                // decrease the current time left 
+
+                // update the timer text 
+                formattedTime = (minutes < 10 ? "0" : "") + minutes + ":" + (remainingSeconds < 10 ? "0" : "") + remainingSeconds;
+                digitalClock.innerText = formattedTime;
+            } else {
+                inptxtpnl.addEventListener("keydown", (event) => event.preventDefault());
+                // finish the game 
+                if (gmOver === false) {
+                    gameOver();
+                }
+            }
+        }
+
+        //------------------- handle events after typing ends -------------------------
+
+        let error_hits = null;
+        let gross_strocks = null;
+        let net_strocks = null;
+        let accuracy = null;
+        let gross_speed = null;
+        let net_speed = null;
+        let message = null;
+
+        // count occurrences of characters in an array
+        function countChar(arr) {
+            arr.forEach(function(char) {
+                if (charFreq[char]) {
+                    charFreq[char]++;
+                } else {
+                    charFreq[char] = 1;
+                }
+            });
+        }
+
+        function gameOver() {
+
+            // stop the timer 
+            clearInterval(timer);
+            timer = null;
+            inptxtpnl.addEventListener("keydown", (event) => event.preventDefault());
+
+            // calculate results
+            error_hits = wrongWords * 5;
+            gross_strocks = inptxtpnl.innerText.length;
+            net_strocks = gross_strocks - error_hits;
+            if (net_strocks < 0) {
+                net_strocks = 0
+            }
+            accuracy = Math.round((net_strocks / gross_strocks) * 100);
+            gross_speed = Math.round(((gross_strocks / 5) / timeElapsed) * 60);
+            net_speed = Math.round(((net_strocks / 5) / timeElapsed) * 60);
+            message = "";
+
+            // Count the frequency of characters in each array
+            countChar(diffKeys);
+            countChar(extraKeys);
+            countChar(missedKeys);
+
+            // Append the new sortedDiffKeys to the prevDiffKeys array
+            let diffKeysArr = prevDiffKeys.concat(sortedDiffKeys);
+
+            if (diffKeysArr.length > 0) {
+                countChar(diffKeysArr);
+            }
+
+            // Convert the characterFrequency object to an array of [character, frequency] pairs
+            let diffChar = Object.entries(charFreq);
+
+            // Sort the array by frequency in descending order
+            diffChar.sort(function(a, b) {
+                return b[1] - a[1]; // Sort by frequency, descending
+            });
+
+            // Extract only the characters, ignoring their frequencies
+            sortedDiffKeys = diffChar.map(function(item) {
+                return item[0];
+            });
+
+            // Extract only the frequencies, ignoring their characters
+            sortedFreqs = diffChar.map(function(item) {
+                return item[1];
+            });
+
+            // ------------------- display results -----------------------
+
+            // do not show result if user has typed something but less then 5 words or 10 seconds
+            if (totalWordsTyped > 0 && timeElapsed > 0 && (totalWordsTyped < 5 || timeElapsed < 10)) {
+                message = "You have typed for very short time - your performance scores cannot be calculated.";
+                setTimeout(function() {
+                    window.alert(
+                        message
+                    );
+                }, 10);
+                // show_result in console;
+            } else if (timeElapsed > 10 && totalWordsTyped > 4) {
+                result = `Time Used       ` + timeElapsed + `sec` +
+                    `\nGross Speed    ` + gross_speed +
+                    `\nAccuracy         ` + accuracy + `%` +
+                    `\nNet Speed       ` + net_speed;
+                setTimeout(function() {
+                    console.log(result);
+                    console.log('\nError Hits: ' + error_hits, '\nGross Strocks: ' + gross_strocks, '\nNet Strocks: ' + net_strocks);
+                    // message = "The exercise was interrupted early. Results are based on incomplete material and may not be accurate.s";
+                    // window.alert(result);
+                    show_result(message);
+
+                }, 10);
+            } else {
+                message = "Text Not Entered!";
+                window.alert(message);
+                // show_result(message);
+            }
+
+            // Store results into session storage
+            sessionStorage.setItem('"tU"', timeElapsed + "sec");
+            gmOver = true;
+        }
+
+        /* 
+        time_msg = "Interrupted";  // 1:00 min(s) saved
+        speed_msg = "Slow"; // Excellent
+        accuracy_msg = "Goal 94%";
+        learning_tip = `Keys "${}" appear difficult - keep an eye on them and review them if you continue having problems.`;
+        msg_head = "Test Passed";
+        message = "You completed this typing test.";
+        */
+
+        function show_result(msg) {
+
+            localStorage.setItem('message', msg);
+
+            localStorage.setItem('time-used', timeElapsed);
+            localStorage.setItem('gross-speed', gross_speed);
+            localStorage.setItem('accuracy', accuracy);
+            localStorage.setItem('net-speed', net_speed);
+
+            localStorage.setItem('diffKeys', sortedDiffKeys);
+            localStorage.setItem('frequencies', sortedFreqs);
+
+            window.location.href = 'result_page.html';
+        }
+
+ 
