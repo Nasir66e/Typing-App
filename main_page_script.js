@@ -1,6 +1,6 @@
 	// main_page_script.js
 
-	      var started = false; // Flag
+	var started = false; // Flag
         var timeLeft = parseInt(localStorage.getItem('durationSelected')) || 60; // fallback to 60 seconds;
         var timeElapsed = 0;
         var minutes = 0;
