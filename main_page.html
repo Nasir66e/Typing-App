@@ -4,229 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Typing Master</title>
-
-    <style>
-        body {
-            overflow: hidden;
-            user-select: none;
-            margin-top: none;
-            background: #c3cdff;
-            color: #000000;
-        }
-
-        #mainpg {
-            height: 100%;
-            width: 100%;
-            background: transparent;
-            padding: 0px;
-            border-radius: 10px;
-        }
-
-        #panel {
-            height: 560px;
-            width: 650px;
-            background: #efffd7;
-            border: 6px solid #6a55d1;
-            border-radius: 25px;
-            display: grid;
-            grid-template-columns: 2.7fr 1fr;
-            grid-template-rows: repeat(2, 1fr);
-            grid-column-gap: 0px;
-            grid-row-gap: 5px;
-        }
-
-        #contentbox {
-            height: 250px;
-            width: 428px;
-            grid-area: 1 / 1 / 2 / 2;
-            background: #efffd7;
-            border: 1px solid transparent;
-            border-top-left-radius: 20px;
-            padding: 22px 22px 3px 22px;
-            font-size: 20px;
-            color: #000000;
-            text-align: left;
-            overflow-y: scroll;
-        }
-
-        #contentbox::-webkit-scrollbar {
-            width: 0px;
-        }
-
-        #typingbox {
-            height: 250px;
-            grid-area: 2 / 1 / 3 / 2;
-            background: #efffd7;
-            border: 1px solid #c9e99b;
-            border-bottom-left-radius: 20px;
-            border-width: 1px 0px 0px 0px;
-            padding: 10px 22px 15px 22px;
-            user-select: none;
-        }
-
-        #timermenu {
-            grid-area: 1 / 2 / 3 / 3;
-            background: #d1f59e;
-            border-top-right-radius: 20px;
-            border-bottom-right-radius: 20px;
-            display: grid;
-            grid-template-columns: 1.2fr;
-            grid-template-rows: 1fr 0.5fr 2fr 5fr 1.2fr 0.8fr;
-            grid-column-gap: 0px;
-            grid-row-gap: 2px;
-        }
-
-        .tmtitle {
-            grid-area: 1 / 1 / 2 / 2;
-            background: transparent;
-            display: flex;
-            align-items: flex-start;
-            flex-direction: column;
-            padding: 5px;
-            font-size: 17px;
-            font-weight: bold;
-            border-top-right-radius: 20px;
-        }
-
-        .tmtitle button {
-            height: 20px;
-            width: 20px;
-            background: #a9de62;
-            border: 1px solid #878993;
-            border-radius: 2px;
-            box-shadow: 0px 2px #c7e47f inset;
-            padding: 0 0 0 0;
-            margin-left: 140px;
-            margin-top: 3px;
-            margin-bottom: 20px;
-            color: #fff;
-            font-size: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .tmtitle span {
-            font-family: Arial;
-            padding-left: 6px;
-        }
-
-        .tmtitle line {
-            height: auto;
-            width: 90%;
-            border-top: 1px solid #fff;
-            margin-top: 2px;
-        }
-
-        .timebox {
-            grid-area: 2 / 1 / 3 / 2;
-            background: transparent;
-        }
-
-        #timeClock p {
-            font-weight: bolder;
-            font-family: Arial;
-            font-size: 26px;
-            line-height: 1;
-            background: transparent;
-            margin-top: -2px;
-            text-align: left;
-            padding-left: 12px;
-        }
-
-        #timer {
-            margin-top: -18px;
-        }
-
-        .tmgif {
-            grid-area: 3 / 1 / 4 / 2;
-            background: transparent;
-        }
-
-        .spc {
-            grid-area: 4 / 1 / 5 / 2;
-            background: transparent;
-        }
-
-        #nxt {
-            grid-area: 5 / 1 / 6 / 2;
-            background: transparent;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-        }
-
-        #nxt-btn {
-            font-size: 14px;
-            height: 58%;
-            width: 86%;
-            background: linear-gradient(0deg, rgba(212, 215, 245, 1) 0%, rgba(255, 255, 255, 1) 100%);
-            border-radius: 6px;
-            box-shadow: none;
-            outline: none;
-            color: #000683;
-            border: 1px solid #8f95bf;
-        }
-
-        #cls {
-            grid-area: 6 / 1 / 7 / 2;
-            background: transparent;
-            border-bottom-right-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #cls-btn {
-            height: 60%;
-            width: 86%;
-            font-size: 14px;
-            background: #efffd7;
-            border-radius: 6px;
-            box-shadow: none;
-            outline: none;
-            color: #000683;
-            border: 1px solid #8f95bf;
-        }
-
-        #txtera {
-            height: 100%;
-            width: 100%;
-            color: #546e30;
-            background: transparent;
-            font-size: 20px;
-            font-family: initial;
-            border-bottom-left-radius: 10px;
-            padding: 2px;
-            border: none;
-            outline: none;
-            caret-color: #000;
-            user-select: none;
-            overflow-y: scroll;
-            word-wrap: break-word;
-            word-break: break-word;
-            overflow-wrap: break-word;
-            text-align: left;
-        }
-
-        #txtera::-webkit-scrollbar {
-            width: 0px;
-        }
-
-        *::selection {
-            background: transparent;
-        }
-
-        #txtera:active {
-            outline: none;
-            border: none;
-        }
-
-        #contentbox span {
-            background: transparent;
-        }
-
-    </style>
+    <link rel="stylesheet" href="main_page_styles.css">
 </head>
 
 <body>
@@ -289,6 +67,7 @@
         var currentWord = contcrrwno + 1;
         var timer = null;
         var result = null;
+        let gmOver = false;
         var extraKeys = [];
         var diffKeys = [];
         var missedKeys = [];
@@ -402,9 +181,9 @@
                     }
                 }
 
-                if (contcrrchno == 0) {
-                    timer = setInterval(updateTimer, 1000); // set interval for time updating
-                }
+                // if (contcrrchno == 0) {
+                //     timer = setInterval(updateTimer, 1000); // set interval for time updating
+                // }
 
                 contcrrchno++; // update content's current character (typed) number
                 lastword += e.key; // add up alphanueric character to the word currently typing (latest/last word)
@@ -590,6 +369,13 @@
 
         //------------------handle time events-------------------
 
+        function startTimer() {
+            if (!started) {
+                timer = setInterval(updateTimer, 1000);
+                started = true;
+    }
+}
+        
         function updateTimer() {
             if (timeLeft > 0) {
 
@@ -616,7 +402,6 @@
 
         //------------------- handle events after typing ends -------------------------
 
-        let gmOver = false;
         let error_hits = null;
         let gross_strocks = null;
         let net_strocks = null;
