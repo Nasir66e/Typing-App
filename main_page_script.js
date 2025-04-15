@@ -246,11 +246,13 @@ function markWordAsIncorrect() {
 }
 
 function reloadContent() {
-    contentPanel.innerHTML = "";
-    currentWordCount = 0;
-    currentWordIndex = 0;
-    totalWordsInContent += contentWords.length;
-    updateContent();
+    contentPanel.innerHTML = ""; // Clear existing content
+    currentWordCount = 0; // Reset word count
+    currentWordIndex = 0; // Reset word index
+    totalWordsTyped = 0; // reset total words typed.
+    inputPanel.innerHTML = `<span id="inpw0"></span>`; // reset the input panel.
+    totalWordsInContent = contentWords.length; // reset total words in content.
+    updateContent(); // Update content with the next batch of words
 }
 
 //------------------- Timer -------------------
