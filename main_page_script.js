@@ -180,6 +180,7 @@ function handleSpacebarKey(e) {
 
     if (totalWordsTyped === totalWordsInContent) {
         if (timeLeft > 0) {
+            console.log('Loading next page...');
             reloadContent(); // continue
         } else {
             endGame();
