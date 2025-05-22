@@ -69,7 +69,7 @@ async function fetchData() {
         content.push(data[textKey]);
         contentWords = content[0].split(" ");
         totalWordsInContent = contentWords.length;
-        console.log(totalWordsInContent);
+        
         updateContent();
     } catch (error) {
         console.error("Error fetching content:", error);
@@ -81,7 +81,7 @@ async function fetchData() {
 function updateContent() {
     const MAX_SCROLL_HEIGHT = 250; // Adjust if your design changes
 
-    while (currentWordCount < contentWords.length) {
+    while (currentWordCount < totalWordsInContent) {
         const span = document.createElement("span");
         span.id = `c${currentWordCount}`;
         span.textContent = contentWords[currentWordCount] + " ";
@@ -97,6 +97,8 @@ function updateContent() {
 
         currentWordCount++;
     }
+
+    console.log(totalWordsInContent, ' &' , currentWordCount);
 
     initTypingArea();
 }
@@ -177,8 +179,8 @@ function handleSpacebarKey(e) {
 
     updateWordHighlighting();
     prepareForNextWord();
-    console.log(totalWordsTyped, '_', totalWordsInContent);
-    if (totalWordsTyped === totalWordsInContent) {
+    
+    if (totalWordsTyped === currentWordCount) {
         if (timeLeft > 0) {
             console.log('Loading next page...');
             reloadContent(); // continue
