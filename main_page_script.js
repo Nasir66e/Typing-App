@@ -177,7 +177,7 @@ function handleSpacebarKey(e) {
 
     updateWordHighlighting();
     prepareForNextWord();
-
+    console.log(totalWordsTyped, '_', totalWordsInContent);
     if (totalWordsTyped === totalWordsInContent) {
         if (timeLeft > 0) {
             console.log('Loading next page...');
