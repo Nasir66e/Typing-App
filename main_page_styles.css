@@ -3,10 +3,16 @@
         body {
             overflow: hidden;
             user-select: none;
-            margin-top: none;
+            margin: 0;
             background: #c3cdff;
             color: #000000;
+                font-family: Arial, sans-serif;
         }
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 
         #mainpg {
             height: 100%;
@@ -14,9 +20,16 @@
             background: transparent;
             padding: 0px;
             border-radius: 10px;
+
+                display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
         }
 
         #panel {
+                max-width: 95vw;
+    max-height: 90vh;
             height: 560px;
             width: 650px;
             background: #efffd7;
@@ -27,6 +40,8 @@
             grid-template-rows: repeat(2, 1fr);
             grid-column-gap: 0px;
             grid-row-gap: 5px;
+            margin: auto;
+            text-align: center;
         }
 
         #contentbox {
@@ -105,12 +120,17 @@
             padding-left: 6px;
         }
 
-        .tmtitle line {
-            height: auto;
-            width: 90%;
-            border-top: 1px solid #fff;
-            margin-top: 2px;
-        }
+        .tmtitle hr {
+    width: 90%;
+    border-top: 1px solid #fff;
+    margin-top: 2px;
+}
+
+button:focus {
+    outline: 2px solid #6a55d1;
+    outline-offset: 2px;
+}
+
 
         .timebox {
             grid-area: 2 / 1 / 3 / 2;
@@ -182,6 +202,11 @@
             color: #000683;
             border: 1px solid #8f95bf;
         }
+
+#nxt-btn:focus, #cls-btn:focus {
+    outline: 2px solid #6a55d1;
+}
+
 
         #txtera {
             height: 100%;
