@@ -37,6 +37,7 @@ let prevDiffKeys = JSON.parse(localStorage.getItem('prevDiffKeys') || '[]');
 let currentWordCount = 0;
 let content = [];
 let contentWords = [];
+let contentBoxWordshown = 0;
 
 let inputPanel = document.getElementById("txtera");
 let contentPanel = document.querySelector("#contentbox");
@@ -83,8 +84,8 @@ function updateContent() {
 
     while (currentWordCount < totalWordsInContent) {
         const span = document.createElement("span");
-        span.id = `c${currentWordCount}`;
-        span.textContent = contentWords[currentWordCount] + " ";
+        span.id = `c${currentWordCount}`; 
+        span.textContent = contentWords[currentWordCount] + " "; 
         span.style.color = "#546e30";
 
         contentPanel.appendChild(span);
@@ -94,7 +95,7 @@ function updateContent() {
             contentPanel.removeChild(span); // Remove last word
             break;
         }
-
+        contentBoxWordshown++;
         currentWordCount++;
     }
 
@@ -166,8 +167,12 @@ function handleSpacebarKey(e) {
     e.preventDefault();
 
     if (currentWordIndex >= totalWordsInContent) {
-        endGame();
-        return;
+        if (timeLeft > 0) {
+            currentWordCount = 0;
+        } else {
+            endGame();
+            return;
+        }
     }
 
     totalWordsTyped++;
@@ -178,7 +183,7 @@ function handleSpacebarKey(e) {
     updateWordHighlighting();
     prepareForNextWord();
     
-    if (totalWordsTyped === currentWordCount) {
+    if (totalWordsTyped === contentBoxWordshown) {
         if (timeLeft > 0) {
             reloadContent(); 
         } else {
@@ -247,6 +252,7 @@ function markWordAsIncorrect() {
 
 function reloadContent() {
     contentPanel.innerHTML = ""; // Clear existing content
+    contentBoxWordCount = 0; 
     //currentWordCount = 0; // Reset word count
     //currentWordIndex = 0; // Reset word index
     //totalWordsTyped = 0; // reset total words typed.
@@ -282,7 +288,7 @@ function updateTimer() {
 //------------------- Game Over -------------------
 
 function endGame() {
-    if (gameIsOver) return;
+    //if (gameIsOver) return;
 
     gameIsOver = true;
     clearInterval(timer);
