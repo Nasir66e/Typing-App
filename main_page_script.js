@@ -79,7 +79,7 @@ async function fetchData() {
 //------------------- Initialize UI -------------------
 
 function updateContent() {
-    const MAX_SCROLL_HEIGHT = 278; // Adjust if your design changes
+    const MAX_SCROLL_HEIGHT = 250; // Adjust if your design changes
 
     while (currentWordCount < contentWords.length) {
         const span = document.createElement("span");
