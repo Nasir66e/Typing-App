@@ -69,7 +69,7 @@ async function fetchData() {
         content.push(data[textKey]);
         contentWords = content[0].split(" ");
         totalWordsInContent = contentWords.length;
-
+        console.log(totalWordsInContent);
         updateContent();
     } catch (error) {
         console.error("Error fetching content:", error);
