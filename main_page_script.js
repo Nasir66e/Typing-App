@@ -98,8 +98,6 @@ function updateContent() {
         currentWordCount++;
     }
 
-    console.log(totalWordsInContent, ' &' , currentWordCount);
-
     initTypingArea();
 }
 
@@ -107,6 +105,8 @@ function initTypingArea() {
     highlightWord(0);
     inputPanel.innerHTML += `<span id="inpw0"></span>`;
     inputPanel.scrollTop = inputPanel.scrollHeight;
+
+    console.log(totalWordsInContent, ' &' , currentWordCount);
 }
 
 //------------------- Typing Logic -------------------
