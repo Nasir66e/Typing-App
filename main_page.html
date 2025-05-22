@@ -1,48 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Typing Master</title>
-    <link rel="stylesheet" href="main_page_styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Test your typing speed and accuracy with Typing Master." />
+  <title>Typing Master</title>
+  <link rel="stylesheet" href="main_page_styles.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 
 <body>
+  <main id="mainpg">
+    <section id="panel">
+      <div id="contentbox" aria-label="Typing Content Area">
+        <!-- This is where the target text will appear -->
+      </div>
 
-    <div id="mainpg">
-        <center>
-            <div id="panel">
-                <div id="contentbox">
-                    <!--onscroll="this.style.overflow='hidden'"-->
-                </div>
-                <div id="typingbox">
-                    <div id="txtera"></div>
-                </div>
-                <div id="timermenu">
+      <div id="typingbox" aria-label="Typing Input Box">
+        <div id="txtera"></div>
+      </div>
 
-                    <div class="tmtitle"><button type="button" onclick="window.close()">&times;</button><span>Time</span>
-                        <line></line>
-                    </div>
-                    <div class="timebox">
-                        <div id="timeClock">
-                            <p id="digitalClock">00:00</p>
-                        </div>
-                        <canvas id="timer"></canvas>
-                    </div>
-                    <div class="tmgif"> </div>
-                    <div class="spc"> </div>
-                    <div id="nxt"><button type="button" id="nxt-btn" class="nxt-btn" onclick="gameOver()"><span style="text-decoration:underline">N</span>ext</button></div>
-                    <div id="cls"><button type="button" id="cls-btn" class="cls-btn" onclick="window.history.back()"><span style="text-decoration:underline">C</span>ancel</button> </div>
-                </div>
-            </div>
-        </center>
-    </div>
+      <section id="timermenu" aria-label="Timer and Controls">
+        <header class="tmtitle">
+          <button type="button" aria-label="Close Window" onclick="window.history.back()">&times;</button>
+          <span>Time</span>
+          <hr />
+        </header>
 
-    <script src="ellipse.js"></script>
+        <div class="timebox">
+          <div id="timeClock">
+            <p id="digitalClock" aria-label="Digital Clock">00:00</p>
+          </div>
+          <canvas id="timer" aria-label="Circular Timer"></canvas>
+        </div>
 
-    <script src="main_page_script.js"></script>
-       
+        <!-- Optional: Add typing animation or GIF here -->
+        <div class="tmgif">
+          <!-- Placeholder for visual feedback or GIF -->
+        </div>
 
+        <div class="spc"></div>
+
+        <div id="nxt">
+          <button type="button" id="nxt-btn" class="nxt-btn" onclick="gameOver()" aria-label="Next Test">
+            <span style="text-decoration: underline">N</span>ext
+          </button>
+        </div>
+
+        <div id="cls">
+          <button type="button" id="cls-btn" class="cls-btn" onclick="window.history.back()" aria-label="Cancel Test">
+            <span style="text-decoration: underline">C</span>ancel
+          </button>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <noscript>
+    <p style="text-align:center; color:red;">This application requires JavaScript to function properly. Please enable JavaScript in your browser.</p>
+  </noscript>
+
+  <script src="ellipse.js"></script>
+  <script src="main_page_script.js"></script>
 </body>
 
 </html>
