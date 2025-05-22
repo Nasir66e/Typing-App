@@ -103,10 +103,8 @@ function updateContent() {
 
 function initTypingArea() {
     highlightWord(0);
-    inputPanel.innerHTML += `<span id="inpw0"></span>`;
+    inputPanel.innerHTML += `<span id="inpw${typedWordsArray.length}"></span>`;
     inputPanel.scrollTop = inputPanel.scrollHeight;
-
-    console.log(totalWordsInContent, ' &' , currentWordCount);
 }
 
 //------------------- Typing Logic -------------------
@@ -145,7 +143,7 @@ function handleAlphaNumericKey(key) {
         extraKeys.push(key);
     }
 
-    document.querySelector(`#inpw${totalWordsTyped}`).innerHTML = lastWord;
+    document.querySelector(`#inpw${typedWordsArray.length}`).innerHTML = lastWord;
     backspaces++;
 
     if (totalStrokes === 1) startTimer();
@@ -159,7 +157,7 @@ function handleBackspaceKey(e) {
 
     e.preventDefault(); // To prevent browser default behavior
     lastWord = lastWord.slice(0, -1);
-    document.querySelector(`#inpw${totalWordsTyped}`).innerHTML = lastWord;
+    document.querySelector(`#inpw${typedWordsArray.length}`).innerHTML = lastWord;
     backspaces--;
     currentCharIndex--;
 }
@@ -182,8 +180,7 @@ function handleSpacebarKey(e) {
     
     if (totalWordsTyped === currentWordCount) {
         if (timeLeft > 0) {
-            console.log('Loading next page...');
-            reloadContent(); // continue
+            reloadContent(); 
         } else {
             endGame();
         }
@@ -197,7 +194,7 @@ function prepareForNextWord() {
     currentWordIndex++;
 
     if (totalWordsTyped < totalWordsInContent && currentWordIndex < totalWordsInContent) {
-        inputPanel.innerHTML += `&nbsp;<span id="inpw${totalWordsTyped}"></span>`;
+        inputPanel.innerHTML += `&nbsp;<span id="inpw${typedWordsArray.length}"></span>`;
         highlightWord(currentWordIndex);
     }
 }
@@ -232,7 +229,7 @@ function checkInputWord() {
 }
 
 function markWordAsIncorrect() {
-    const inputSpan = document.querySelector(`#inpw${totalWordsTyped - 1}`);
+    const inputSpan = document.querySelector(`#inpw${typedWordsArray.length - 1}`);
     if (inputSpan) {
         inputSpan.style.textDecoration = "underline";
         inputSpan.style.textDecorationColor = "#e94f69";
@@ -250,11 +247,11 @@ function markWordAsIncorrect() {
 
 function reloadContent() {
     contentPanel.innerHTML = ""; // Clear existing content
-    currentWordCount = 0; // Reset word count
-    currentWordIndex = 0; // Reset word index
-    totalWordsTyped = 0; // reset total words typed.
-    inputPanel.innerHTML = `<span id="inpw0"></span>`; // reset the input panel.
-    totalWordsInContent = contentWords.length; // reset total words in content.
+    //currentWordCount = 0; // Reset word count
+    //currentWordIndex = 0; // Reset word index
+    //totalWordsTyped = 0; // reset total words typed.
+    //inputPanel.innerHTML = `<span id="inpw0"></span>`; // reset the input panel.
+    //totalWordsInContent = contentWords.length; // reset total words in content.
     updateContent(); // Update content with the next batch of words
 }
 
