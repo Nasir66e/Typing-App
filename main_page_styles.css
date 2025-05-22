@@ -6,7 +6,7 @@
             margin: 0;
             background: #c3cdff;
             color: #000000;
-                
+                font-family: auto;
         }
 
 *, *::before, *::after {
