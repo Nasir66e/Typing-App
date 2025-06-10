@@ -321,16 +321,6 @@
             padding-left: 14px;
         }
 
-        .side-btn:nth-of-type(3) {
-            border-top-left-radius: 16px;
-        }
-
-        .side-btn:last-of-type {
-            position: relative;
-            height: 10%;
-            border-bottom-right-radius: 18px;
-        }
-
         .side-btn:nth-of-type(2) .lft-arrow {
             border-right-color: #ffffff;
         }
@@ -363,6 +353,16 @@
             transform: rotate(60deg);
             margin-left: 30px;
             margin-top: 11px;
+        }
+
+        .side-btn:nth-of-type(3) {
+            border-top-left-radius: 16px;
+        }
+
+        .side-btn:last-of-type {
+            position: relative;
+            height: 10%;
+            border-bottom-right-radius: 18px;
         }
 
         .lft-arrow {
@@ -409,7 +409,7 @@
                     <div id="result">
                         <div id="header">
                             <h1 id="page_title">Choose Course</h1>
-                            <div id="select">
+                            <div id="select" onclick="showList()">
                                 <div class="custom-select">
                                     <select>
                                         <option>English</option>
@@ -457,36 +457,36 @@
                     </div>
                 </div>
                 <div id="timermenu">
-                    <div class="side-btn"><strong>
+                    <div class="side-btn" id="btn0"><strong>
                             <div id="cls-btn">Close<div id="cls-x" onclick="window.close()">X</div>
                             </div>
                         </strong></div>
-                    <div class="side-btn">
+                    <div class="side-btn" id="btn1" onclick="menuselect(1)">
                         <div class="lft-arrow"></div><strong>Studying</strong>
                     </div>
-                    <div class="side-btn">
+                    <div class="side-btn" id="btn2" onclick="menuselect(2)">
                         <div class="lft-arrow"></div><strong>Typing Meter</strong>
                     </div>
-                    <div class="side-btn">
+                    <div class="side-btn" id="btn3" onclick="menuselect(3)">
                         <div class="lft-arrow"></div><strong>Custom Review</strong>
                     </div>
-                    <div class="side-btn">
+                    <div class="side-btn" id="btn4" onclick="menuselect(4)">
                         <div class="lft-arrow"></div><strong>Typing Test</strong>
                     </div>
-                    <div class="side-btn">
+                    <div class="side-btn" id="btn5" onclick="menuselect(5)">
                         <div class="lft-arrow"></div><strong>Games</strong>
                     </div>
-                    <div class="side-btn">
+                    <div class="side-btn" id="btn6" onclick="menuselect(6)">
                         <div class="lft-arrow"></div><strong>Statistics</strong>
                     </div>
-                    <div class="side-btn"></div>
-                    <div class="side-btn">
+                    <div class="side-btn" id="btn7"></div>
+                    <div class="side-btn" id="btn8" onclick="menuselect(8)">
                         <div class="lft-arrow"></div><strong>Settings</strong>
                     </div>
-                    <div class="side-btn">
+                    <div class="side-btn" id="btn9" onclick="menuselect(9)">
                         <div class="lft-arrow"></div><strong>About</strong>
                     </div>
-                    <div class="side-btn"></div>
+                    <div class="side-btn" id="btn10"></div>
                     <div class="side-btn"></div>
                     <div class="side-btn"></div>
                     <div class="side-btn"></div>
@@ -500,6 +500,45 @@
         localStorage.setItem('prevDiffKeys', new Array());
 
 
+        let stack = document.querySelectorAll('div.side-btn');
+
+        let sidebtn = new Array();
+        sidebtn.push(stack[0], stack[1], stack[2], stack[3], stack[4], stack[5], stack[6], stack[7], stack[8], stack[9], stack[10]);
+
+        let currentstyling = sidebtn[1];
+
+        function menuselect(btn) {
+            prevStyling(currentstyling);
+            currentstyling = sidebtn[btn];
+            sidebtn[btn-1].style.borderBottomLeftRadius = '16px';
+            sidebtn[btn].style.background = '#efffd7';
+            sidebtn[btn].style.color = '#000000';
+            sidebtn[btn].style.width = 'calc(100% - 10px)';
+            sidebtn[btn].style.marginLeft = '-26px';
+            sidebtn[btn].style.borderTopRightRadius = '12px';
+            sidebtn[btn].style.borderBottomRightRadius = '12px';
+            sidebtn[btn+1].style.borderTopLeftRadius = '16px';
+        }
+
+        function prevStyling(btn) {
+            
+            let crrno = parseInt(currentstyling.id.replace('btn', ''));
+            sidebtn[crrno-1].style.borderBottomLeftRadius = '0px';
+            sidebtn[crrno].style.background = '#6a55d1';
+            sidebtn[crrno].style.color = '#ffffff';
+            sidebtn[crrno].style.width = 'calc(100% + 6px)';
+            sidebtn[crrno].style.marginLeft = '0px';
+            sidebtn[crrno].style.paddingLeft = '0px';
+            sidebtn[crrno].style.borderTopRightRadius = '0px';
+            sidebtn[crrno].style.borderBottomRightRadius = '0px';
+            sidebtn[crrno+1].style.borderTopLeftRadius = '0px';
+            
+        }
+
+        function showList() {
+            false;
+        }
+        
     </script>
 </body>
 
