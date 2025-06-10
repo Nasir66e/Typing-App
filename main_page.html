@@ -18,7 +18,8 @@
       </div>
 
       <div id="typingbox" aria-label="Typing Input Box">
-        <div id="txtera"></div>
+        <div id="txtera">
+        </div>
       </div>
 
       <section id="timermenu" aria-label="Timer and Controls">
@@ -43,7 +44,7 @@
         <div class="spc"></div>
 
         <div id="nxt">
-          <button type="button" id="nxt-btn" class="nxt-btn" onclick="gameOver()" aria-label="Next Test">
+          <button type="button" id="nxt-btn" class="nxt-btn" onclick="showResults()" aria-label="Next Test">
             <span style="text-decoration: underline">N</span>ext
           </button>
         </div>
@@ -55,13 +56,23 @@
         </div>
       </section>
     </section>
+    <!-- ---------------------- Duplicate Panel Structure below --------------------->
+    <section id="panel-clone" class="overlay-panel" style="display: none;">
+      <div id="contentbox2" aria-label="Typing Content Area2">
+        <div id="alertbox">
+          <p id="alerttitle">Exercise completed.</p>
+          <p id="alertmsg">Press Enter to continue.</p>
+        </div>
+      </div>
+      <div id="typingbox2" aria-label="Typing Input Box2"></div>
+      <section id="timermenu2" aria-label="Timer and Controls2"></section>
+    </section>
   </main>
 
   <noscript>
     <p style="text-align:center; color:red;">This application requires JavaScript to function properly. Please enable JavaScript in your browser.</p>
   </noscript>
 
-  <script src="ellipse.js"></script>
   <script src="main_page_script.js"></script>
 </body>
 
