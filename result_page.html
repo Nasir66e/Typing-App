@@ -330,13 +330,14 @@ body {
       <script>
 
 let msg_head_elem = document.getElementById('msg-head');
-let message_elem = document.getElementById('message');
+let msg_body_elem = document.getElementById('message');
 let time_used_elem = document.getElementById('time-used');
 let gross_speed_elem = document.getElementById('gross-speed');
 let accuracy_elem = document.getElementById('accuracy');
 let net_speed_elem = document.getElementById('net-speed');
 
-let message;
+let msgHead;
+let msgBody;
 let time_used;
 let gross_speed;
 let accuracy;
@@ -345,17 +346,15 @@ let diff_keys;
 let frequencies;
 
 function get_results() {
-  message = localStorage.getItem('message');
+  message_head = localStorage.getItem('msgHead');
+  message_body = localStorage.getItem('msgBody');
   time_used = localStorage.getItem('time-used');
   gross_speed = localStorage.getItem('gross-speed');
   accuracy = localStorage.getItem('accuracy');
   net_speed = localStorage.getItem('net-speed');
-  diff_keys = localStorage.getItem('diffKeys');
-  diff_keys = diff_keys.split(',');
-  frequencies = localStorage.getItem('frequencies');
-  frequencies = frequencies.split(',');
-  frequencies = frequencies.map(function(item) { return parseInt(item); });
-  frequencies = frequencies.map(function(item) { return item > 12 ? 12 : item; });
+  diff_keys = JSON.parse(localStorage.getItem('diffKeys') || '[]');
+  frequencies = localStorage.getItem('frequencies') || "";
+  frequencies = localStorage.getItem('frequencies').split(',').map(item => item.replace('[', '')).map(item => item.replace(']', '')).map(item => parseInt(item)).map(item => isNaN(item) ? 0 : item).map(item => item + 1);
 
   if (diff_keys.length > 8) {
     diff_keys = diff_keys.slice(0, 8);
@@ -365,8 +364,8 @@ function get_results() {
     frequencies = frequencies.slice(0, diff_keys.length);
   }
 
-  if (frequencies.length < 12) {
-    frequencies = frequencies.map(function(item) { return frequencies.length < 12 ? frequencies.push(0) : false; });
+  while (frequencies.length < 8) {
+    frequencies.push(0);
   }
 
   frequencies = frequencies.sort(function(a, b) { return b - a; });
@@ -387,18 +386,22 @@ window.onload = function() {
 };
 
 function create_chart() {
-  for (let i=0; i<=frequencies.length; i++) {
-    let barHeight = (frequencies[i] * 8) + 'px';
-    document.getElementById(`bar-${i+1}`).style.height = barHeight;
-    if (frequencies[i] == 0) {
-      document.getElementById(`bar-${i+1}`).style.border = '1px solid transparent';
-    } else if (frequencies[i] > 8) {
-      document.getElementById(`bar-${i+1}`).style.background = 'rgb(255 0 78)';
-    } else if (frequencies[i] > 4) {
-      document.getElementById(`bar-${i+1}`).style.background = 'rgb(255 210 17)';
-    } else {
-      document.getElementById(`bar-${i+1}`).style.background = 'rgb(168 181 247)';
-    }
+    for (let i = 0; i < Math.min(frequencies.length, 8); i++) {
+      let barElem = document.getElementById(`bar-${i+1}`);
+      if (!barElem) continue;
+
+      let barHeight = frequencies[i] + 'px';
+      barElem.style.height = barHeight;
+
+      if (frequencies[i] === 0) {
+        barElem.style.border = '1px solid transparent';
+      } else if (frequencies[i] > 67) {
+        barElem.style.background = 'rgb(255 0 78)'; //red
+      } else if (frequencies[i] > 34) {
+        barElem.style.background = 'rgb(255 210 17)'; //yellow
+      } else {
+        barElem.style.background = 'rgb(168 181 247)'; //blue
+      }
   }
 }
 
@@ -408,9 +411,9 @@ function set_results() {
   let seconds = time_used % 60;
 
   time_used_elem.innerText = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ' min.';
-  gross_speed_elem.innerText = gross_speed + ' wpm';
+  gross_speed_elem.innerText = (gross_speed == 'NaN' ? gross_speed = 0 : gross_speed) + ' wpm';
   accuracy_elem.innerText = accuracy + '%';
-  net_speed_elem.innerText = net_speed + ' wpm';
+  net_speed_elem.innerText = (net_speed == 'NaN' ? net_speed = 0 : net_speed) + ' wpm';
 
   for (let i=0; i<8; i++) {
     if (diff_keys[i] !== undefined) {
